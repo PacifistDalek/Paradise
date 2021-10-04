@@ -15,37 +15,31 @@
 	result = /obj/item/reagent_containers/food/snacks/dionaroast
 
 /datum/recipe/microwave/jellydonut
-	reagents = list("berryjuice" = 5, "sugar" = 5)
+	reagents = list("berryjuice" = 5)
 	items = list(
-		/obj/item/reagent_containers/food/snacks/dough
+		/obj/item/reagent_containers/food/snacks/donut
 	)
 	result = /obj/item/reagent_containers/food/snacks/donut/jelly
 
 /datum/recipe/microwave/jellydonut/slime
-	reagents = list("slimejelly" = 5, "sugar" = 5)
+	reagents = list("slimejelly" = 5)
 	items = list(
-		/obj/item/reagent_containers/food/snacks/dough
+		/obj/item/reagent_containers/food/snacks/donut
 	)
 	result = /obj/item/reagent_containers/food/snacks/donut/jelly/slimejelly
 
 /datum/recipe/microwave/jellydonut/cherry
-	reagents = list("cherryjelly" = 5, "sugar" = 5)
+	reagents = list("cherryjelly" = 5)
 	items = list(
-		/obj/item/reagent_containers/food/snacks/dough
+		/obj/item/reagent_containers/food/snacks/donut
 	)
 	result = /obj/item/reagent_containers/food/snacks/donut/jelly/cherryjelly
 
-/datum/recipe/microwave/donut
-	reagents = list("sugar" = 5)
-	items = list(
-		/obj/item/reagent_containers/food/snacks/dough
-	)
-	result = /obj/item/reagent_containers/food/snacks/donut
 
 /datum/recipe/microwave/donut/sprinkles
-	reagents = list("sugar" = 5, "sprinkles" = 2)
+	reagents = list("sprinkles" = 2)
 	items = list(
-		/obj/item/reagent_containers/food/snacks/dough
+		/obj/item/reagent_containers/food/snacks/donut
 	)
 	result = /obj/item/reagent_containers/food/snacks/donut/sprinkles
 
@@ -182,9 +176,9 @@
 	result = /obj/item/reagent_containers/food/snacks/soylentgreen
 
 /datum/recipe/microwave/chaosdonut
-	reagents = list("frostoil" = 5, "capsaicin" = 5, "sugar" = 5)
+	reagents = list("frostoil" = 5, "capsaicin" = 5)
 	items = list(
-		/obj/item/reagent_containers/food/snacks/dough
+		/obj/item/reagent_containers/food/snacks/donut
 	)
 	result = /obj/item/reagent_containers/food/snacks/donut/chaos
 

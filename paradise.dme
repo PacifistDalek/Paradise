@@ -1570,6 +1570,7 @@
 #include "code\modules\food_and_drinks\food\foods\bread.dm"
 #include "code\modules\food_and_drinks\food\foods\candy.dm"
 #include "code\modules\food_and_drinks\food\foods\desserts.dm"
+#include "code\modules\food_and_drinks\food\foods\donuts.dm"
 #include "code\modules\food_and_drinks\food\foods\ethnic.dm"
 #include "code\modules\food_and_drinks\food\foods\ingredients.dm"
 #include "code\modules\food_and_drinks\food\foods\junkfood.dm"

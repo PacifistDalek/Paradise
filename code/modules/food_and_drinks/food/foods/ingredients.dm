@@ -144,32 +144,24 @@
 
 ///cookies by Ume
 
-/obj/item/reagent_containers/food/snacks/cookiedough
+/obj/item/reagent_containers/food/snacks/pastrydough
 	var/flat = FALSE
 	name = "pastry dough"
 	icon = 'icons/obj/food/food_ingredients.dmi'
-	desc = "The base for tasty cookies."
-	icon_state = "cookiedough"
-	list_reagents = list("nutriment" = 5, "sugar" = 5)
+	desc = "The base for tasty baked treats like cookies, pancakes, and donuts!"
+	icon_state = "pastrydough"
+	list_reagents = list("nutriment" = 6, "sugar" = 6)
 	tastes = list("dough" = 1, "sugar" = 1)
 
 
-/obj/item/reagent_containers/food/snacks/cookiedough/update_icon()
-    if(flat)
-        icon_state = "cookiedough_flat"
-        name = "flat pastry dough"
-    else
-        icon_state = "cookiedough"
 
-
-
-// Dough + rolling pin = flat cookie dough // Flat dough + circular cutter = unbaked cookies
-/obj/item/reagent_containers/food/snacks/cookiedough/attackby(obj/item/I, mob/user, params)
+// Dough + rolling pin = flat pastry dough // Flat dough + circular cutter = unbaked cookies
+/obj/item/reagent_containers/food/snacks/pastrydough/attackby(obj/item/I, mob/user, params)
 	if(istype(I, /obj/item/kitchen/rollingpin) && !flat)
 		if(isturf(loc))
+			new /obj/item/reagent_containers/food/snacks/sliceable/pastrydough(loc)
 			to_chat(user, "<span class='notice'>You flatten [src].</span>")
-			flat = TRUE
-			update_icon()
+			qdel(src)
 		else
 			to_chat(user, "<span class='notice'>You need to put [src] on a surface to roll it out!</span>")
 	else if(istype(I, /obj/item/kitchen/cutter) && flat)
@@ -182,7 +174,35 @@
 	else
 		return ..()
 
+// slice flat pastry dough to make raw donuts
+/obj/item/reagent_containers/food/snacks/sliceable/pastrydough
+	name = "flat pastry dough"
+	desc = "Some flattened pastry dough."
+	icon = 'icons/obj/food/food_ingredients.dmi'
+	icon_state = "pastrydough_flat"
+	slice_path = list(/obj/item/reagent_containers/food/snacks/rawdonut, /obj/item/reagent_containers/food/snacks/rawtimbit)
+	slices_num = 2
+	list_reagents = list("nutriment" = 6, "sugar" = 6)
+	tastes = list("dough" = 1, "sugar" = 1)
 
+
+/obj/item/reagent_containers/food/snacks/rawdonut
+	name = "raw donut"
+	desc = "pure pastry potential, with a hole."
+	icon = 'icons/obj/food/donuts.dmi'
+	icon_state = "rawdonut"
+	list_reagents = list("nutriment" = 2, "sugar" = 2)
+	tastes = list("dough" = 1, "sugar" = 1)
+
+/obj/item/reagent_containers/food/snacks/rawtimbit
+	name = "raw donut hole"
+	desc = "an existential quandry in pastry form"
+	icon = 'icons/obj/food/donuts.dmi'
+	icon_state = "rawtimbit"
+	list_reagents = list("nutriment" = 1, "sugar" = 1)
+	tastes = list("dough" = 2, "sugar" = 2, "hole" = 1)
+
+// cookies
 /obj/item/reagent_containers/food/snacks/rawcookies
 	name = "raw cookies"
 	desc = "Ready for oven!"

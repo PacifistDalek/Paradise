@@ -140,3 +140,11 @@
 		return FALSE
 	var/obj/item/organ/external/E = I
 	return istype(E.dna.species, /datum/species/vox)
+
+/datum/deepfryer_special/donut
+	input = /obj/item/reagent_containers/food/snacks/rawdonut
+	output = /obj/item/reagent_containers/food/snacks/donut
+
+/datum/deepfryer_special/timbit
+	input = /obj/item/reagent_containers/food/snacks/rawtimbit
+	output = /obj/item/reagent_containers/food/snacks/timbit
