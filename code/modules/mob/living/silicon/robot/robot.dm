@@ -334,6 +334,7 @@ GLOBAL_LIST_INIT(robot_verbs_default, list(
 			module_sprites["Standard"] = "Standard-Serv"
 			module_sprites["Noble-SRV"] = "Noble-SRV"
 			module_sprites["Cricket"] = "Cricket-SERV"
+			module_sprites["Heavy Service"] = "heavyServ"
 			see_reagents = TRUE
 
 		if("Miner")
@@ -348,6 +349,7 @@ GLOBAL_LIST_INIT(robot_verbs_default, list(
 			module_sprites["Noble-DIG"] = "Noble-DIG"
 			module_sprites["Cricket"] = "Cricket-MINE"
 			module_sprites["Lavaland"] = "lavaland"
+			module_sprites["Sleek"] = "sleekminer"
 
 		if("Medical")
 			module = new /obj/item/robot_module/medical(src)
@@ -361,6 +363,7 @@ GLOBAL_LIST_INIT(robot_verbs_default, list(
 			module_sprites["Standard"] = "Standard-Medi"
 			module_sprites["Noble-MED"] = "Noble-MED"
 			module_sprites["Cricket"] = "Cricket-MEDI"
+			module_sprites["Qualified Doctor"] = "qualified_doctor"
 			status_flags &= ~CANPUSH
 			see_reagents = TRUE
 
@@ -387,6 +390,7 @@ GLOBAL_LIST_INIT(robot_verbs_default, list(
 			module_sprites["Standard"] = "Standard-Engi"
 			module_sprites["Noble-ENG"] = "Noble-ENG"
 			module_sprites["Cricket"] = "Cricket-ENGI"
+			module_sprites["Drone Mk II"] = "constructiondrone"
 			magpulse = 1
 
 		if("Janitor")
@@ -398,6 +402,7 @@ GLOBAL_LIST_INIT(robot_verbs_default, list(
 			module_sprites["Standard"] = "Standard-Jani"
 			module_sprites["Noble-CLN"] = "Noble-CLN"
 			module_sprites["Cricket"] = "Cricket-JANI"
+			module_sprites["Next-to-Godliness"] = "nexttogodliness"
 
 		if("Destroyer") // Rolling Borg
 			module = new /obj/item/robot_module/destroyer(src)
