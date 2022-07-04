@@ -335,6 +335,7 @@ GLOBAL_LIST_INIT(robot_verbs_default, list(
 			module_sprites["Noble-SRV"] = "Noble-SRV"
 			module_sprites["Cricket"] = "Cricket-SERV"
 			module_sprites["Heavy Service"] = "heavyServ"
+			module_sprites["Drone Mk III"] = "servicedrone"
 			see_reagents = TRUE
 
 		if("Miner")
@@ -390,7 +391,7 @@ GLOBAL_LIST_INIT(robot_verbs_default, list(
 			module_sprites["Standard"] = "Standard-Engi"
 			module_sprites["Noble-ENG"] = "Noble-ENG"
 			module_sprites["Cricket"] = "Cricket-ENGI"
-			module_sprites["Drone Mk II"] = "constructiondrone"
+			module_sprites["Drone Mk III"] = "constructiondrone"
 			magpulse = 1
 
 		if("Janitor")
@@ -403,6 +404,7 @@ GLOBAL_LIST_INIT(robot_verbs_default, list(
 			module_sprites["Noble-CLN"] = "Noble-CLN"
 			module_sprites["Cricket"] = "Cricket-JANI"
 			module_sprites["Next-to-Godliness"] = "nexttogodliness"
+			module_sprites["Drone Mk III"] = "cleaningdrone"
 
 		if("Destroyer") // Rolling Borg
 			module = new /obj/item/robot_module/destroyer(src)
