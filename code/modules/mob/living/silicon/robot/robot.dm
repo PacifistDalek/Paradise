@@ -53,7 +53,7 @@ GLOBAL_LIST_INIT(robot_verbs_default, list(
 
 	var/opened = 0
 	var/custom_panel = null
-	var/list/custom_panel_names = list("Cricket")
+	var/list/custom_panel_names = list("Cricket", "omoikane")
 	var/list/custom_eye_names = list("Cricket","Standard")
 	var/emagged = 0
 	var/is_emaggable = TRUE
