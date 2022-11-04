@@ -1,12 +1,5 @@
 /obj/item/melee
-	needs_permit = 1
-
-/obj/item/melee/proc/check_martial_counter(mob/living/carbon/human/target, mob/living/carbon/human/user)
-	if(target.check_block())
-		target.visible_message("<span class='danger'>[target.name] blocks [src] and twists [user]'s arm behind [user.p_their()] back!</span>",
-					"<span class='userdanger'>You block the attack!</span>")
-		user.Stun(4 SECONDS)
-		return TRUE
+	needs_permit = TRUE
 
 /obj/item/melee/chainofcommand
 	name = "chain of command"
@@ -37,7 +30,7 @@
 	throwforce = 10
 	w_class = WEIGHT_CLASS_BULKY
 	block_chance = 50
-	armour_penetration = 75
+	armour_penetration_percentage = 75
 	sharp = TRUE
 	origin_tech = "combat=5"
 	attack_verb = list("lunged at", "stabbed")
@@ -94,8 +87,6 @@
 
 /obj/item/melee/flyswatter/attack(mob/living/M, mob/living/user, def_zone)
 	. = ..()
-	if(!.)
-		return
 	if(is_type_in_typecache(M, strong_against))
 		new /obj/effect/decal/cleanable/insectguts(M.drop_location())
 		user.visible_message("<span class='warning'>[user] splats [M] with [src].</span>",
@@ -116,8 +107,9 @@
 	hitsound = 'sound/weapons/rapierhit.ogg'
 	w_class = WEIGHT_CLASS_BULKY
 	force = 25
-	armour_penetration = 50
+	armour_penetration_flat = 50
 	block_chance = 50
+	sharp = TRUE
 	///enchantment holder, gives it unique on hit effects.
 	var/datum/enchantment/enchant = null
 	///the cooldown and power of enchantments are multiplied by this var when its applied

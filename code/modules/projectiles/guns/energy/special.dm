@@ -13,6 +13,7 @@
 	can_holster = FALSE
 	flags =  CONDUCT
 	slot_flags = SLOT_BACK
+	shaded_charge = TRUE
 	ammo_type = list(/obj/item/ammo_casing/energy/ion)
 	ammo_x_offset = 3
 	flight_x_offset = 17
@@ -42,11 +43,14 @@
 	ammo_x_offset = 1
 	can_holster = TRUE
 
-/obj/item/gun/energy/decloner/update_icon()
-	..()
+/obj/item/gun/energy/decloner/update_icon_state()
+	return
+
+/obj/item/gun/energy/decloner/update_overlays()
+	. = list()
 	var/obj/item/ammo_casing/energy/shot = ammo_type[select]
 	if(cell.charge > shot.e_cost)
-		add_overlay("decloner_spin")
+		. += "decloner_spin"
 
 // Flora Gun //
 /obj/item/gun/energy/floragun
@@ -59,7 +63,7 @@
 	origin_tech = "materials=2;biotech=4"
 	modifystate = 1
 	ammo_x_offset = 1
-	selfcharge = 1
+	selfcharge = TRUE
 	can_holster = TRUE
 
 // Meteor Gun //
@@ -73,8 +77,8 @@
 	w_class = WEIGHT_CLASS_BULKY
 	ammo_type = list(/obj/item/ammo_casing/energy/meteor)
 	cell_type = /obj/item/stock_parts/cell/potato
-	clumsy_check = 0 //Admin spawn only, might as well let clowns use it.
-	selfcharge = 1
+	clumsy_check = FALSE //Admin spawn only, might as well let clowns use it.
+	selfcharge = TRUE
 
 /obj/item/gun/energy/meteorgun/pen
 	name = "meteor pen"
@@ -104,16 +108,16 @@
 	w_class = WEIGHT_CLASS_SMALL
 	materials = list(MAT_METAL=2000)
 	origin_tech = "combat=4;magnets=4;syndicate=5"
-	suppressed = 1
+	suppressed = TRUE
 	ammo_type = list(/obj/item/ammo_casing/energy/bolt)
 	weapon_weight = WEAPON_LIGHT
 	unique_rename = FALSE
 	overheat_time = 20
 	holds_charge = TRUE
 	unique_frequency = TRUE
-	can_flashlight = 0
+	can_flashlight = FALSE
 	max_mod_capacity = 0
-	empty_state = null
+	empty_state = "crossbow_empty"
 	can_holster = TRUE
 
 /obj/item/gun/energy/kinetic_accelerator/crossbow/detailed_examine()
@@ -121,7 +125,7 @@
 			then click where you want to fire."
 
 /obj/item/gun/energy/kinetic_accelerator/crossbow/detailed_examine_antag()
-	return "This is a stealthy weapon which fires poisoned bolts at your target. When it hits someone, they will suffer a stun effect, in \
+	return "This is a stealthy weapon which fires poisoned bolts at your target. When it hits someone, they will suffer a knockdown effect, in \
 			addition to toxins. The energy crossbow recharges itself slowly, and can be concealed in your pocket or bag."
 
 /obj/item/gun/energy/kinetic_accelerator/crossbow/large
@@ -131,8 +135,9 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	materials = list(MAT_METAL=4000)
 	origin_tech = "combat=4;magnets=4;syndicate=2"
-	suppressed = 0
+	suppressed = FALSE
 	ammo_type = list(/obj/item/ammo_casing/energy/bolt/large)
+	empty_state = "crossbowlarge_empty"
 
 /obj/item/gun/energy/kinetic_accelerator/crossbow/large/cyborg
 	desc = "One and done!"
@@ -163,8 +168,8 @@
 	flags = CONDUCT
 	attack_verb = list("attacked", "slashed", "cut", "sliced")
 	force = 12
-	sharp = 1
-	can_charge = 0
+	sharp = TRUE
+	can_charge = FALSE
 	can_holster = TRUE
 
 /obj/item/gun/energy/plasmacutter/attackby(obj/item/A, mob/user)
@@ -189,8 +194,8 @@
 	else
 		return ..()
 
-/obj/item/gun/energy/plasmacutter/update_icon()
-	return
+/obj/item/gun/energy/plasmacutter/update_overlays()
+	return list()
 
 /obj/item/gun/energy/plasmacutter/adv
 	name = "advanced plasma cutter"
@@ -215,10 +220,9 @@
 	var/obj/effect/portal/orange
 
 
-/obj/item/gun/energy/wormhole_projector/update_icon()
+/obj/item/gun/energy/wormhole_projector/update_icon_state()
 	icon_state = "wormhole_projector[select]"
 	item_state = icon_state
-	return
 
 /obj/item/gun/energy/wormhole_projector/process_chamber()
 	..()
@@ -258,10 +262,10 @@
 	icon = 'icons/obj/guns/projectile.dmi'
 	cell_type = /obj/item/stock_parts/cell/secborg
 	ammo_type = list(/obj/item/ammo_casing/energy/c3dbullet)
-	can_charge = 0
+	can_charge = FALSE
 
-/obj/item/gun/energy/printer/update_icon()
-	return
+/obj/item/gun/energy/printer/update_overlays()
+	return list()
 
 /obj/item/gun/energy/printer/emp_act()
 	return
@@ -297,8 +301,8 @@
 	desc = "Clown Planet's finest."
 	icon_state = "disabler"
 	ammo_type = list(/obj/item/ammo_casing/energy/clown)
-	clumsy_check = 0
-	selfcharge = 1
+	clumsy_check = FALSE
+	selfcharge = TRUE
 	ammo_x_offset = 3
 	can_holster = TRUE  // you'll never see it coming
 
@@ -311,7 +315,7 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	origin_tech = "combat=4;magnets=4;powerstorage=3"
 	ammo_type = list(/obj/item/ammo_casing/energy/weak_plasma, /obj/item/ammo_casing/energy/charged_plasma)
-	shaded_charge = 1
+	shaded_charge = TRUE
 	can_holster = TRUE
 	atom_say_verb = "beeps"
 	bubble_icon = "swarmer"
@@ -517,8 +521,7 @@
 	..()
 	update_icon()
 
-/obj/item/gun/energy/bsg/update_icon()
-	. = ..()
+/obj/item/gun/energy/bsg/update_icon_state()
 	if(core)
 		if(has_bluespace_crystal)
 			icon_state = "bsg_finished"
@@ -566,16 +569,19 @@
 	w_class = WEIGHT_CLASS_BULKY
 	fire_sound = 'sound/weapons/pulse3.ogg'
 	desc = "A gun that changes the body temperature of its targets."
-	var/temperature = 300
-	var/target_temperature = 300
 	origin_tech = "combat=4;materials=4;powerstorage=3;magnets=2"
 
 	ammo_type = list(/obj/item/ammo_casing/energy/temp)
-	selfcharge = 1
+	selfcharge = TRUE
 
-	var/powercost = ""
-	var/powercostcolor = ""
-	var/dat = ""
+	// Measured in Kelvin
+	var/temperature = T20C
+	var/target_temperature = T20C
+	var/min_temp = 0
+	var/max_temp = 500
+
+	/// How fast the gun recharges
+	var/recharge_multiplier = 1
 
 /obj/item/gun/energy/temperature/Initialize(mapload, ...)
 	. = ..()
@@ -587,109 +593,66 @@
 	STOP_PROCESSING(SSobj, src)
 	return ..()
 
-/obj/item/gun/energy/temperature/newshot()
-	..()
+/obj/item/gun/energy/temperature/attack_self(mob/user)
+	add_fingerprint(user)
+	ui_interact(user)
 
-/obj/item/gun/energy/temperature/attack_self(mob/living/user as mob)
-	user.set_machine(src)
-	update_dat()
-	user << browse("<TITLE>Temperature Gun Configuration</TITLE><HR>[dat]", "window=tempgun;size=510x120")
-	onclose(user, "tempgun")
+/obj/item/gun/energy/temperature/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = FALSE, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.deep_inventory_state)
+	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+	if(!ui)
+		ui = new(user, src, ui_key, "TempGun", name, 250, 130, master_ui, state)
+		ui.open()
+
+/obj/item/gun/energy/temperature/ui_data(mob/user)
+	var/list/data = list()
+	data["target_temperature"] = target_temperature - T0C // Pass them in as Celcius numbers
+	data["temperature"] = temperature - T0C
+	data["max_temp"] = max_temp - T0C
+	data["min_temp"] = min_temp - T0C
+	return data
+
+/obj/item/gun/energy/temperature/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
+	if(..())
+		return
+
+	if(action == "target_temperature")
+		target_temperature = clamp(text2num(params["target_temperature"]) + T0C, min_temp, max_temp) //Retrieved as a celcius number, convert to kelvin
 
 /obj/item/gun/energy/temperature/emag_act(mob/user)
 	if(!emagged)
 		emagged = TRUE
-		to_chat(user, "<span class='caution'>You double the gun's temperature cap! Targets hit by searing beams will burst into flames!</span>")
-		desc = "A gun that changes the body temperature of its targets. Its temperature cap has been hacked."
-
-/obj/item/gun/energy/temperature/Topic(href, href_list)
-	if(..())
-		return
-	usr.set_machine(src)
-	add_fingerprint(usr)
-
-	if(href_list["temp"])
-		var/amount = text2num(href_list["temp"])
-		if(amount > 0)
-			target_temperature = min((500 + 500*emagged), target_temperature+amount)
-		else
-			target_temperature = max(0, target_temperature+amount)
-	if(istype(loc, /mob))
-		attack_self(loc)
-	add_fingerprint(usr)
-	return
+		to_chat(user, "<span class='caution'>You remove the gun's temperature cap! Targets hit by searing beams will burst into flames!</span>")
+		desc += " Its temperature cap has been removed."
+		max_temp = 1000
+		recharge_multiplier = 5  //so emagged temp guns adjust their temperature much more quickly
 
 /obj/item/gun/energy/temperature/process()
 	..()
-	var/obj/item/ammo_casing/energy/temp/T = ammo_type[select]
-	T.temp = temperature
-	switch(temperature)
-		if(0 to 100)
-			T.e_cost = 300
-			powercost = "High"
-		if(100 to 250)
-			T.e_cost = 200
-			powercost = "Medium"
-		if(251 to 300)
-			T.e_cost = 100
-			powercost = "Low"
-		if(301 to 400)
-			T.e_cost = 200
-			powercost = "Medium"
-		if(401 to 1000)
-			T.e_cost = 300
-			powercost = "High"
-	switch(powercost)
-		if("High")
-			powercostcolor = "orange"
-		if("Medium")
-			powercostcolor = "green"
-		else
-			powercostcolor = "blue"
 	if(target_temperature != temperature)
 		var/difference = abs(target_temperature - temperature)
-		if(difference >= (10 + 40*emagged)) //so emagged temp guns adjust their temperature much more quickly
+		if(difference >= (10 * recharge_multiplier))
 			if(target_temperature < temperature)
-				temperature -= (10 + 40*emagged)
+				temperature -= (10 * recharge_multiplier)
 			else
-				temperature += (10 + 40*emagged)
+				temperature += (10 * recharge_multiplier)
 		else
 			temperature = target_temperature
 		update_icon()
+		var/obj/item/ammo_casing/energy/temp/T = ammo_type[select]
+		T.temp = temperature
+		switch(temperature)
+			if(0 to 100)
+				T.e_cost = 300
+			if(100 to 250)
+				T.e_cost = 200
+			if(251 to 300)
+				T.e_cost = 100
+			if(301 to 400)
+				T.e_cost = 200
+			if(401 to INFINITY)
+				T.e_cost = 300
 
-		if(istype(loc, /mob/living/carbon))
-			var/mob/living/carbon/M = loc
-			if(src == M.machine)
-				update_dat()
-				M << browse("<TITLE>Temperature Gun Configuration</TITLE><HR>[dat]", "window=tempgun;size=510x102")
-	return
-
-/obj/item/gun/energy/temperature/proc/update_dat()
-	dat = ""
-	dat += "Current output temperature: "
-	if(temperature > 500)
-		dat += "<FONT color=red><B>[temperature]</B> ([round(temperature-T0C)]&deg;C)</FONT>"
-		dat += "<FONT color=red><B> SEARING!</B></FONT>"
-	else if(temperature > (T0C + 50))
-		dat += "<FONT color=red><B>[temperature]</B> ([round(temperature-T0C)]&deg;C)</FONT>"
-	else if(temperature > (T0C - 50))
-		dat += "<FONT color=black><B>[temperature]</B> ([round(temperature-T0C)]&deg;C)</FONT>"
-	else
-		dat += "<FONT color=blue><B>[temperature]</B> ([round(temperature-T0C)]&deg;C)</FONT>"
-	dat += "<BR>"
-	dat += "Target output temperature: "	//might be string idiocy, but at least it's easy to read
-	dat += "<A href='?src=[UID()];temp=-100'>-</A> "
-	dat += "<A href='?src=[UID()];temp=-10'>-</A> "
-	dat += "<A href='?src=[UID()];temp=-1'>-</A> "
-	dat += "[target_temperature] "
-	dat += "<A href='?src=[UID()];temp=1'>+</A> "
-	dat += "<A href='?src=[UID()];temp=10'>+</A> "
-	dat += "<A href='?src=[UID()];temp=100'>+</A>"
-	dat += "<BR>"
-	dat += "Power cost: "
-	dat += "<FONT color=[powercostcolor]><B>[powercost]</B></FONT>"
-
-/obj/item/gun/energy/temperature/proc/update_temperature()
+/obj/item/gun/energy/temperature/update_icon_state()
 	switch(temperature)
 		if(501 to INFINITY)
 			item_state = "tempgun_8"
@@ -711,32 +674,26 @@
 			item_state = "tempgun_0"
 	icon_state = item_state
 
-/obj/item/gun/energy/temperature/update_icon()
-	overlays = 0
-	update_temperature()
-	update_user()
-	update_charge()
-
-/obj/item/gun/energy/temperature/proc/update_user()
-	if(istype(loc,/mob/living/carbon))
+	if(iscarbon(loc))
 		var/mob/living/carbon/M = loc
 		M.update_inv_back()
 		M.update_inv_l_hand()
 		M.update_inv_r_hand()
 
-/obj/item/gun/energy/temperature/proc/update_charge()
+/obj/item/gun/energy/temperature/update_overlays()
+	. = ..()
 	var/charge = cell.charge
 	switch(charge)
-		if(900 to INFINITY)		overlays += "900"
-		if(800 to 900)			overlays += "800"
-		if(700 to 800)			overlays += "700"
-		if(600 to 700)			overlays += "600"
-		if(500 to 600)			overlays += "500"
-		if(400 to 500)			overlays += "400"
-		if(300 to 400)			overlays += "300"
-		if(200 to 300)			overlays += "200"
-		if(100 to 202)			overlays += "100"
-		if(-INFINITY to 100)	overlays += "0"
+		if(900 to INFINITY)		. += "900"
+		if(800 to 900)			. += "800"
+		if(700 to 800)			. += "700"
+		if(600 to 700)			. += "600"
+		if(500 to 600)			. += "500"
+		if(400 to 500)			. += "400"
+		if(300 to 400)			. += "300"
+		if(200 to 300)			. += "200"
+		if(100 to 200)			. += "100"
+		if(-INFINITY to 100)	. += "0"
 
 // Mimic Gun //
 /obj/item/gun/energy/mimicgun
@@ -744,8 +701,8 @@
 	desc = "A self-defense weapon that exhausts organic targets, weakening them until they collapse. Why does this one have teeth?"
 	icon_state = "disabler"
 	ammo_type = list(/obj/item/ammo_casing/energy/mimic)
-	clumsy_check = 0 //Admin spawn only, might as well let clowns use it.
-	selfcharge = 1
+	clumsy_check = FALSE //Admin spawn only, might as well let clowns use it.
+	selfcharge = TRUE
 	ammo_x_offset = 3
 	var/mimic_type = /obj/item/gun/projectile/automatic/pistol //Setting this to the mimicgun type does exactly what you think it will.
 	can_holster = TRUE
@@ -777,6 +734,7 @@
 	unique_reskin = TRUE
 	charge_sections = 5
 	inhand_charge_sections = 3
+	overlay_set = "handgun" // Reskins are a different icon_state
 
 /obj/item/gun/energy/detective/Initialize(mapload, ...)
 	. = ..()
@@ -795,6 +753,12 @@
 	. = ..()
 	. += "<span class='notice'>Ctrl-click to clear active tracked target or clear linked pinpointer.</span>"
 
+/obj/item/gun/energy/detective/emp_act(severity)
+	. = ..()
+	unlink()
+	atom_say("EMP detected. Pinpointer and tracker system reset.")
+
+
 /obj/item/gun/energy/detective/CtrlClick(mob/user)
 	. = ..()
 	if(!isliving(loc)) //don't do this next bit if this gun is on the floor
@@ -807,14 +771,20 @@
 	if(linked_pinpointer_UID)
 		if(alert("Do you want to clear the linked pinpointer?", "Pinpointer reset", "Yes", "No") == "Yes")
 			to_chat(user, "<span class='notice'>[src] is ready to be linked to a new pinpointer.</span>")
-			var/obj/item/pinpointer/crew/C = locateUID(linked_pinpointer_UID)
-			C.linked_gun_UID = null
-			if(C.mode == MODE_DET)
-				C.stop_tracking()
-			linked_pinpointer_UID = null
+			unlink()
 
 /obj/item/gun/energy/detective/proc/link_pinpointer(pinpointer_UID)
 	linked_pinpointer_UID = pinpointer_UID
+
+/obj/item/gun/energy/detective/proc/unlink()
+	var/obj/item/pinpointer/crew/C = locateUID(linked_pinpointer_UID)
+	if(!C)
+		return
+	C.linked_gun_UID = null
+	if(C.mode == MODE_DET)
+		C.stop_tracking()
+	linked_pinpointer_UID = null
+	tracking_target_UID = null
 
 /obj/item/gun/energy/detective/multitool_act(mob/living/user, obj/item/I)
 	. = TRUE
@@ -848,7 +818,7 @@
 		return
 	var/new_speedcharger_charge = cell.give(S.charge)
 	S.charge -= new_speedcharger_charge
-	S.update_icon()
+	S.update_icon(UPDATE_OVERLAYS)
 	update_icon()
 
 /obj/item/gun/energy/detective/process_fire(atom/target, mob/living/user, message, params, zone_override, bonus_spread)

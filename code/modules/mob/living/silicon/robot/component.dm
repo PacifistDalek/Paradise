@@ -3,8 +3,8 @@
 /datum/robot_component
 	var/name = "Component"
 	var/installed = FALSE
-	var/powered = 1
-	var/toggled = 1
+	var/powered = TRUE
+	var/toggled = TRUE
 	var/brute_damage = 0
 	var/electronics_damage = 0
 	var/max_damage = 30
@@ -80,10 +80,10 @@
 	return isnull(wrapped)
 
 /datum/robot_component/proc/consume_power()
-	if(toggled == 0)
-		powered = 0
+	if(!toggled)
+		powered = FALSE
 		return
-	powered = 1
+	powered = TRUE
 
 	SStgui.update_uis(owner.self_diagnosis)
 
@@ -272,9 +272,9 @@
 
 /proc/robot_healthscan(mob/user, mob/living/M)
 	var/scan_type
-	if(istype(M, /mob/living/silicon/robot))
+	if(isrobot(M))
 		scan_type = "robot"
-	else if(istype(M, /mob/living/carbon/human))
+	else if(ishuman(M))
 		scan_type = "prosthetics"
 	else
 		to_chat(user, "<span class='warning'>You can't analyze non-robotic things!</span>")

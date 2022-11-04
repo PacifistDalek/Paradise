@@ -3,7 +3,7 @@
 	desc = "This spell opens nearby doors and does not require wizard garb."
 
 	school = "transmutation"
-	charge_max = 100
+	base_cooldown = 100
 	clothes_req = FALSE
 	invocation = "AULIE OXIN FIERA"
 	invocation_type = "whisper"
@@ -42,12 +42,14 @@
 	name = "Greater Knock"
 	desc = "On first cast, will remove access restrictions on all airlocks on the station, and announce this spell's use to the station. On any further cast, will open all doors in sight. Cannot be refunded once bought!"
 
-	charge_max = 200
+	base_cooldown = 200
 	invocation = "MAIOR OXIN FIERA"
 	invocation_type = "shout"
 	level_max = 0 //Cannot be improved, quality of life since can't be refunded
 	cooldown_min = 200
 	var/used = FALSE
+
+	action_icon_state = "greater_knock"
 
 /obj/effect/proc_holder/spell/aoe_turf/knock/greater/create_new_targeting()
 	var/datum/spell_targeting/aoe/turf/T = new()
@@ -60,7 +62,12 @@
 			if(is_station_level(A.z))
 				A.req_access = list()
 				A.req_one_access = list()
-		GLOB.command_announcement.Announce("We have removed all access requirements on your station's airlocks. You can thank us later!", "Greetings!", 'sound/misc/notice2.ogg', , , "Space Wizard Federation Message")
+		GLOB.command_announcement.Announce(
+			message = "We have removed all access requirements on your station's airlocks. You can thank us later!",
+			new_title = "Greetings!",
+			new_sound = 'sound/misc/notice2.ogg',
+			from = "Space Wizard Federation Message"
+		)
 	else
 		..()
 	return

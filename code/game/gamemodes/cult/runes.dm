@@ -133,6 +133,14 @@ To draw a rune, use a ritual dagger.
 /obj/effect/rune/is_cleanable()
 	return TRUE
 
+/obj/effect/rune/cleaning_act(mob/user, atom/cleaner, cleanspeed = 5 SECONDS, text_verb = "scrub out", text_description = " with [cleaner].")
+	if(issimulatedturf(loc))
+		var/turf/simulated/T = get_turf(src)
+		T.cleaning_act(user, cleaner, cleanspeed = cleanspeed, text_verb = text_verb, text_description = text_description, text_targetname = name) //Strings are deliberately "A = A" to avoid overrides
+		return
+	else
+		..()
+
 
 /*
 There are a few different procs each rune runs through when a cultist activates it.
@@ -186,7 +194,7 @@ structure_check() searches for nearby cultist structures required for the invoca
 			ghost_invokers++
 		if(invocation)
 			if(!L.IsVocal())
-				L.emote("gestures ominously.")
+				L.custom_emote(EMOTE_VISIBLE, message = pick("draws arcane sigils in the air.","gestures ominously.","silently mouths out an invocation.","places their hands on the rune, activating it."))
 			else
 				L.say(invocation)
 			L.changeNext_move(CLICK_CD_MELEE)//THIS IS WHY WE CAN'T HAVE NICE THINGS
@@ -947,6 +955,7 @@ structure_check() searches for nearby cultist structures required for the invoca
 		new_human.dust()
 
 /obj/effect/rune/manifest/proc/ghostify(mob/living/user, turf/T)
+	ADD_TRAIT(user, SCRYING, CULT_TRAIT)
 	user.add_atom_colour(RUNE_COLOR_DARKRED, ADMIN_COLOUR_PRIORITY)
 	user.visible_message("<span class='warning'>[user] freezes statue-still, glowing an unearthly red.</span>",
 					"<span class='cult'>You see what lies beyond. All is revealed. In this form you find that your voice booms above all others.</span>")
@@ -977,6 +986,7 @@ structure_check() searches for nearby cultist structures required for the invoca
 		CM.Remove(ghost)
 		V.Remove(ghost)
 		//GM.Remove(ghost)
+	REMOVE_TRAIT(user, SCRYING, CULT_TRAIT)
 	user.remove_atom_colour(ADMIN_COLOUR_PRIORITY, RUNE_COLOR_DARKRED)
 	user = null
 	rune_in_use = FALSE

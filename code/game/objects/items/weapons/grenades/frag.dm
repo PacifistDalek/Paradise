@@ -2,7 +2,7 @@
 	name = "frag grenade"
 	desc = "Fire in the hole."
 	icon_state = "frag"
-	item_state = "flashbang"
+	item_state = "grenade"
 	origin_tech = "materials=3;magnets=4"
 	var/range = 5
 	var/max_shrapnel = 4
@@ -26,7 +26,7 @@
 
 /obj/item/grenade/frag/proc/embed_shrapnel(mob/living/carbon/human/H, amount)
 	for(var/i = 0, i < amount, i++)
-		if(prob(embed_prob - H.getarmor(null, BOMB)))
+		if(prob(embed_prob - ARMOUR_VALUE_TO_PERCENTAGE(H.getarmor(null, BOMB))))
 			var/obj/item/embedded/S = new embedded_type(src)
 			H.hitby(S, skipcatch = 1)
 			S.throwforce = 1

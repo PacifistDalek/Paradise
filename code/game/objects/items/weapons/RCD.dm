@@ -45,6 +45,9 @@
 	var/door_type = /obj/machinery/door/airlock
 	/// The name that newly build airlocks will receive.
 	var/door_name = "Airlock"
+	/// If the glass airlock is polarized.
+	var/electrochromic = FALSE
+	var/airlock_glass = FALSE
 	/// If this is TRUE, any airlocks that gets built will require only ONE of the checked accesses. If FALSE, it will require ALL of them.
 	var/one_access = TRUE
 	/// Which airlock tab the UI is currently set to display.
@@ -132,13 +135,15 @@
  * * airlock_type - an airlock typepath.
  */
 /obj/item/rcd/proc/get_airlock_image(airlock_type)
-	var/obj/machinery/door/airlock/proto = new airlock_type(null)
-	proto.icon_state = "closed"
-	if(!proto.glass)
-		proto.add_overlay("fill_closed")
-	var/icon/I = getFlatIcon(proto)
-	qdel(proto)
-	return "[icon2base64(I)]"
+	var/obj/machinery/door/airlock/airlock = airlock_type
+	var/icon/base = icon(initial(airlock.icon), "closed")
+	if(initial(airlock.glass))
+		var/icon/glass_fill = icon(initial(airlock.overlays_file), "glass_closed")
+		base.Blend(glass_fill, ICON_OVERLAY)
+	else
+		var/icon/solid_fill = icon(initial(airlock.icon), "fill_closed")
+		base.Blend(solid_fill, ICON_OVERLAY)
+	return "[icon2base64(base)]"
 
 /**
  * Runs a series of pre-checks before opening the radial menu to the user.
@@ -238,6 +243,8 @@
 		"matter" = matter,
 		"door_type" = door_type,
 		"door_name" = door_name,
+		"electrochromic" = electrochromic,
+		"airlock_glass" = airlock_glass,
 		"one_access" = one_access,
 		"selected_accesses" = selected_accesses,
 		"modal" = ui_modal_data(src)
@@ -283,6 +290,11 @@
 				message_admins("RCD Door HREF exploit attempted by [key_name(usr)]!")
 				return FALSE
 			door_type = new_door_type
+			var/obj/machinery/door/airlock/picked_door = door_type
+			airlock_glass = initial(picked_door.glass)
+
+		if("electrochromic")
+			electrochromic = !electrochromic
 
 		if("set_lock")
 			if(!allowed(usr))
@@ -366,6 +378,8 @@
 			to_chat(user, "Building Wall...")
 			playsound(loc, 'sound/machines/click.ogg', 50, 1)
 			if(do_after(user, 20 * toolspeed, target = A))
+				if(!isfloorturf(A))
+					return FALSE
 				if(!useResource(3, user))
 					return FALSE
 				playsound(loc, usesound, 50, 1)
@@ -401,6 +415,8 @@
 					return FALSE
 				playsound(loc, usesound, 50, 1)
 				var/obj/machinery/door/airlock/T = new door_type(A)
+				if(T.glass)
+					T.polarized_glass = electrochromic
 				T.name = door_name
 				T.autoclose = TRUE
 				if(one_access)
@@ -428,7 +444,7 @@
  */
 /obj/item/rcd/proc/mode_decon(atom/A, mob/user)
 	if(iswallturf(A))
-		if(istype(A, /turf/simulated/wall/r_wall) && !canRwall)
+		if(isreinforcedwallturf(A) && !canRwall)
 			return FALSE
 		if(istype(A, /turf/simulated/wall/indestructible))
 			return FALSE

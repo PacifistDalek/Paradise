@@ -24,9 +24,9 @@
 
 /datum/design/largecrossbow
 	name = "Energy Crossbow Parts Kit"
-	desc = "A kit to reverse-engineer a proto-kinetic accelerator into an energy crossbow, favored by syndicate infiltration teams and carp hunters."
+	desc = "A kit to reverse-engineer a laser gun into an energy crossbow, favored by syndicate infiltration teams and carp hunters."
 	id = "largecrossbow"
-	req_tech = list("combat" = 5, "engineering" = 3, "magnets" = 5, "syndicate" = 3)
+	req_tech = list("combat" = 5, "engineering" = 3, "magnets" = 5, "syndicate" = 5)
 	build_type = PROTOLATHE
 	materials = list(MAT_METAL = 5000, MAT_GLASS = 1500, MAT_URANIUM = 1500, MAT_SILVER = 1500)
 	build_path = /obj/item/weaponcrafting/gunkit/ebow
@@ -61,7 +61,7 @@
 	build_type = PROTOLATHE
 	materials = list(MAT_SILVER = 2000, MAT_METAL = 5000, MAT_DIAMOND = 2000, MAT_BLUESPACE = 3000)
 	build_path = /obj/item/gun/energy/wormhole_projector
-	locked = 1
+	locked = TRUE
 	access_requirement = list(ACCESS_RD) //screw you, HoS, this aint yours; this is only for a man of science---and trouble.
 	category = list("Weapons")
 
@@ -168,16 +168,6 @@
 	materials = list(MAT_METAL = 6000, MAT_SILVER = 600, MAT_URANIUM = 2000)
 	build_path = /obj/item/ammo_box/magazine/wt550m9/wttx
 
-/datum/design/stunshell
-	name = "Stun Shell"
-	desc = "A stunning shell for a shotgun."
-	id = "stunshell"
-	req_tech = list("combat" = 3, "materials" = 3)
-	build_type = PROTOLATHE
-	materials = list(MAT_METAL = 200)
-	build_path = /obj/item/ammo_casing/shotgun/stunslug
-	category = list("Weapons")
-
 /datum/design/stunrevolver
 	name = "Tesla Revolver Parts Kit"
 	desc = "A kit for a high-tech revolver that fires internal, reusable shock cartridges in a revolving cylinder. The cartridges can be recharged using conventional rechargers."
@@ -269,4 +259,24 @@
 	build_type = PROTOLATHE
 	materials = list(MAT_METAL = 8000, MAT_GLASS = 5000, MAT_SILVER = 500, MAT_TITANIUM = 500, MAT_PLASMA = 500)
 	build_path = /obj/item/grenade/barrier/dropwall
+	category = list("Weapons")
+
+/datum/design/pyroclaw
+	name = "Fusion gauntlets"
+	desc = "A pair of gloves designed to make superheated claws capable of cutting through almost anything. Needs a pyro anomaly core"
+	id = "pyro_gloves"
+	req_tech = list("combat" = 7, "materials" = 7, "engineering" = 7, "plasmatech" = 7)
+	build_type = PROTOLATHE
+	materials = list(MAT_METAL = 10000, MAT_GLASS = 5000, MAT_SILVER = 4000, MAT_TITANIUM = 4000, MAT_PLASMA = 8000)
+	build_path = /obj/item/clothing/gloves/color/black/pyro_claws
+	category = list("Weapons")
+
+/datum/design/silencer
+	name = "u-ION Silencer Parts Kit"
+	desc = "Nanotrasens take on silenced weapons. A quiet lethal disabler, designed to make the death look like a natural cause."
+	id = "silencer"
+	req_tech = list("combat" = 7, "magnets" = 6, "syndicate" = 3)
+	build_type = PROTOLATHE
+	materials = list(MAT_GOLD = 5000, MAT_URANIUM = 4000, MAT_METAL = 5000, MAT_TITANIUM = 2000, MAT_BLUESPACE = 2000)
+	build_path = /obj/item/weaponcrafting/gunkit/u_ionsilencer
 	category = list("Weapons")

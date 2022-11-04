@@ -14,7 +14,7 @@
 #define USED_MOD_SUIT 2
 
 /obj/item/fluff
-	var/used = 0
+	var/used = FALSE
 
 /obj/item/fluff/tattoo_gun // Generic tattoo gun, make subtypes for different folks
 	name = "disposable tattoo pen"
@@ -42,7 +42,7 @@
 		to_chat(user, "<span class= 'notice'>[src] is out of ink.</span>")
 		return
 
-	if(!istype(M, /mob/living/carbon/human))
+	if(!ishuman(M))
 		to_chat(user, "<span class= 'notice'>You don't think tattooing [M] is the best idea.</span>")
 		return
 
@@ -75,21 +75,18 @@
 		target.change_marking_color(rgb(tattoo_r, tattoo_g, tattoo_b), "body")
 
 		playsound(src.loc, usesound, 20, 1)
-		used = 1
+		used = TRUE
 		update_icon()
 
-/obj/item/fluff/tattoo_gun/update_icon()
-	..()
-
-	overlays.Cut()
-
+/obj/item/fluff/tattoo_gun/update_overlays()
+	. = ..()
 	if(!used)
 		var/image/ink = image(src.icon, src, "ink_overlay")
 		ink.icon += rgb(tattoo_r, tattoo_g, tattoo_b, 190)
-		overlays += ink
+		. += ink
 
-/obj/item/fluff/tattoo_gun/New()
-	..()
+/obj/item/fluff/tattoo_gun/Initialize(mapload)
+	. = ..()
 	update_icon()
 
 /obj/item/fluff/tattoo_gun/elliot_cybernetic_tat
@@ -133,7 +130,7 @@
 	name = "Greenwood's Blade"
 	desc = "A replica claymore with strange markings scratched into the blade."
 	force = 5
-	sharp = 0
+	sharp = FALSE
 
 /obj/item/claymore/fluff/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK)
 	return 0
@@ -147,7 +144,7 @@
 	lefthand_file = 'icons/mob/inhands/fluff_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/fluff_righthand.dmi'
 	force = 5
-	sharp = 0
+	sharp = FALSE
 	flags = CONDUCT
 	slot_flags = SLOT_BELT
 	throwforce = 5
@@ -265,8 +262,7 @@
 	max_combined_w_class = 9
 	storage_slots = 3
 
-/obj/item/storage/toolbox/fluff/lunchbox/New()
-	..()
+/obj/item/storage/toolbox/fluff/lunchbox/populate_contents()
 	new /obj/item/reagent_containers/food/snacks/sandwich(src)
 	new /obj/item/reagent_containers/food/snacks/chips(src)
 	new /obj/item/reagent_containers/food/drinks/cans/cola(src)
@@ -293,7 +289,7 @@
 
 	if(target.change_body_accessory("Jay Wingler Tail"))
 		to_chat(target, "<span class='notice'>You comb your tail with [src].</span>")
-		used = 1
+		used = TRUE
 
 /obj/item/fluff/desolate_coat_kit //DesolateG: Micheal Smith
 	name = "armored jacket conversion kit"
@@ -639,8 +635,8 @@
 	icon_state = "pirate"
 	item_state = "pirate"
 
-/obj/item/clothing/head/pirate/fluff/stumpy/New()
-	..()
+/obj/item/clothing/head/pirate/fluff/stumpy/Initialize(mapload)
+	. = ..()
 	START_PROCESSING(SSobj, src)
 
 /obj/item/clothing/head/pirate/fluff/stumpy/Destroy()
@@ -1058,6 +1054,15 @@
 	adjust_flavour = "unzip"
 
 //////////// Uniforms ////////////
+
+/obj/item/clothing/under/fluff
+	sprite_sheets = list(
+		"Human" = 'icons/mob/clothing/under/donator.dmi',
+		"Vox" = 'icons/mob/clothing/species/vox/under/donator.dmi',
+		"Drask" = 'icons/mob/clothing/species/drask/under/donator.dmi',
+		"Grey" = 'icons/mob/clothing/species/grey/under/donator.dmi'
+		)
+
 /obj/item/clothing/under/fluff/counterfeitguise_uniform 	// thatdanguy23 : Rissa Williams
 	icon = 'icons/obj/custom_items.dmi'
 	name = "Rissa's hand-me-downs"
@@ -1109,7 +1114,7 @@
 	icon_state = "elishirt"
 	item_state = "elishirt"
 	item_color = "elishirt"
-	displays_id = 0
+	displays_id = FALSE
 
 /obj/item/clothing/under/fluff/jay_turtleneck // Jayfeather: Jay Wingler
 	name = "Mar's Pattern Custom Turtleneck"
@@ -1118,7 +1123,7 @@
 	icon_state = "jaywingler"
 	item_state = "jaywingler"
 	item_color = "jaywingler"
-	displays_id = 0
+	displays_id = FALSE
 
 /obj/item/clothing/under/psysuit/fluff/isaca_sirius_1 // Xilia: Isaca Sirius
 	name = "Isaca's suit"
@@ -1132,7 +1137,7 @@
 	item_state = "jane_sid_suit"
 	item_color = "jane_sid_suit"
 	has_sensor = 2
-	sensor_mode = 3
+	sensor_mode = SENSOR_COORDS
 
 /obj/item/clothing/under/fluff/jane_sidsuit/verb/toggle_zipper()
 	set name = "Toggle Jumpsuit Zipper"
@@ -1156,11 +1161,11 @@
 /obj/item/clothing/under/fluff/honourable // MrBarrelrolll: Maximus Greenwood
 	name = "Viridi Protegat"
 	desc = "A set of chainmail adorned with a hide mantle. \"Greenwood\" is engraved into the right breast."
-	icon = 'icons/obj/clothing/uniforms.dmi'
+	icon = 'icons/obj/clothing/under/costumes.dmi'
 	icon_state = "roman"
 	item_state = "maximus_armor"
 	item_color = "maximus_armor"
-	displays_id = 0
+	displays_id = FALSE
 	strip_delay = 100
 
 /obj/item/clothing/under/fluff/aegis //PlagueWalker: A.E.G.I.S.
@@ -1172,13 +1177,12 @@
 	icon_state = "aegisuniform"
 	item_state = "aegisuniform"
 	item_color = "aegisuniform"
-	displays_id = 0
+	displays_id = FALSE
 
 /obj/item/clothing/under/fluff/elo_turtleneck // vforcebomber: E.L.O.
 	name = "E.L.O's Turtleneck"
 	desc = "This TurtleNeck belongs to the IPC E.L.O. And has her name sown into the upper left breast, a very wooly jumper."
 	icon = 'icons/obj/custom_items.dmi' // for the floor sprite
-	icon_override = 'icons/obj/custom_items.dmi' // for the mob sprite
 	icon_state = "eloturtleneckfloor"
 	item_color = "eloturtleneck"
 	displays_id = FALSE
@@ -1264,7 +1268,7 @@
 /obj/item/clothing/under/fluff/arachno_suit
 	name = "Arachno-Man costume"
 	desc = "It's what an evil genius would design if he switched brains with the Amazing Arachno-Man. Actually, he'd probably add weird tentacles that come out the back, too."
-	icon = 'icons/obj/clothing/uniforms.dmi'
+	icon = 'icons/obj/clothing/under/donator.dmi'
 	icon_state = "superior_suit"
 	item_state = "superior_suit"
 	item_color = "superior_suit"
@@ -1358,8 +1362,15 @@
 /obj/item/clothing/under/pants/fluff/combat
 	name = "combat pants"
 	desc = "Medium style tactical pants, for the fashion aware combat units out there."
+	icon = 'icons/obj/custom_items.dmi'
 	icon_state = "chaps"
 	item_color = "combat_pants"
+	sprite_sheets = list(
+		"Human" = 'icons/mob/clothing/under/donator.dmi',
+		"Vox" = 'icons/mob/clothing/species/vox/under/donator.dmi',
+		"Drask" = 'icons/mob/clothing/species/drask/under/donator.dmi',
+		"Grey" = 'icons/mob/clothing/species/grey/under/donator.dmi'
+		)
 
 /obj/item/clothing/suit/jacket/fluff/elliot_windbreaker // DaveTheHeadcrab: Elliot Campbell
 	name = "nylon windbreaker"
@@ -1376,6 +1387,7 @@
 	desc = "A well made satchel for military operations. Totally not made by an enemy corporation"
 	icon = 'icons/obj/custom_items.dmi'
 	icon_state = "rawk_satchel"
+	item_state = null
 	sprite_sheets = null
 
 /obj/item/storage/backpack/fluff/krich_back //lizardzsi: Krichahka
@@ -1383,12 +1395,14 @@
 	desc = "Battered, Sol-made military radio backpack that had its speakers fried from playing Vox opera. The words 'Swift-Talon' are crudely scratched onto its side."
 	icon = 'icons/obj/custom_items.dmi'
 	icon_state = "voxcaster_fluff"
+	item_state = null
 
 /obj/item/storage/backpack/fluff/ssscratches_back //Ssscratches: Lasshy-Bot
 	name = "CatPack"
 	desc = "It's a backpack, but it's also a cat."
 	icon = 'icons/obj/custom_items.dmi'
 	icon_state = "ssscratches_backpack"
+	item_state = null
 
 /obj/item/storage/backpack/fluff/thebrew //Greey: Korala Ice
 	name = "The Brew"
@@ -1598,14 +1612,6 @@
     item_state = "rbscarf"
     item_color = "rbscarf"
 
-/obj/item/instrument/accordion/fluff/asmer_accordion //Asmerath: Coloratura
-	name = "Rara's Somber Accordion"
-	desc = "A blue colored accordion with claw indentations on the keys made special for vulpkanins."
-	icon = 'icons/obj/custom_items.dmi'
-	icon_state = "asmer_accordion"
-	item_state = "asmer_accordion"
-
-
 /obj/item/clothing/head/fluff/pinesalad_horns //Pineapple Salad: Dan Jello
 	name = "Bluespace Horns"
 	desc = "A pair of fake horns. Now with added bluespace!"
@@ -1627,7 +1633,6 @@
 	icon = 'icons/obj/custom_items.dmi'
 	lefthand_file = 'icons/mob/inhands/fluff_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/fluff_righthand.dmi'
-	sprite_sheets = list("Vox" = 'icons/mob/clothing/species/vox/uniform.dmi')
 	icon_state = "kiaoutfit"
 	item_state = "kiaoutfit"
 	item_color = "kiaoutfit"
@@ -1664,7 +1669,7 @@
 	icon = 'icons/obj/custom_items.dmi'
 	fluff_material = TRUE
 
-/obj/item/clothing/gloves/ring/fluff/update_icon()
+/obj/item/clothing/gloves/ring/fluff/update_icon_state()
 	return
 
 /obj/item/clothing/gloves/ring/fluff/attackby(obj/item/I as obj, mob/user as mob, params)
@@ -1683,7 +1688,6 @@
 	desc = "A simple black dress with a white undercoat, tied with a blue ribbon."
 	lefthand_file = 'icons/mob/inhands/fluff_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/fluff_righthand.dmi'
-	sprite_sheets = list("Vox" = 'icons/mob/clothing/species/vox/uniform.dmi')
 	icon = 'icons/obj/custom_items.dmi'
 	icon_state = "kikeridress"
 	item_state = "kikeridress"
@@ -1701,6 +1705,18 @@
 	icon_state = "kikerimask"
 	item_state = "kikerimask"
 	item_color = "kikerimask"
+	species_restricted = list("Vox")
+
+/obj/item/clothing/mask/gas/fluff/yahiyamask //Asmerath: Yahiya
+	name = "Yahiya's Mask"
+	desc = "A dark brown and silver mask resembling that of an eagle. There is a fiery red gem embedded into the forehead."
+	icon = 'icons/obj/custom_items.dmi'
+	lefthand_file = 'icons/mob/inhands/fluff_lefthand.dmi'
+	righthand_file = 'icons/mob/inhands/fluff_righthand.dmi'
+	sprite_sheets = list("Vox" = 'icons/mob/clothing/species/vox/mask.dmi')
+	icon_state = "yahiyamask"
+	item_state = "yahiyamask"
+	item_color = "yahiyamask"
 	species_restricted = list("Vox")
 
 /obj/item/id_decal/aa07

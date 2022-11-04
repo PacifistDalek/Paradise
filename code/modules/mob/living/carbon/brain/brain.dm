@@ -2,7 +2,7 @@
 	var/obj/item/container = null
 	var/timeofhostdeath = 0
 	var/emp_damage = 0//Handles a type of MMI damage
-	use_me = 0 //Can't use the me verb, it's a freaking immobile brain
+	use_me = FALSE //Can't use the me verb, it's a freaking immobile brain
 	icon = 'icons/obj/surgery.dmi'
 	icon_state = "brain1"
 
@@ -18,7 +18,7 @@
 	return ..()
 
 /mob/living/carbon/brain/say_understands(other)//Goddamn is this hackish, but this say code is so odd
-	if(istype(other, /mob/living/silicon/ai))
+	if(isAI(other))
 		if(!(container && istype(container, /obj/item/mmi)))
 			return 0
 		else
@@ -28,19 +28,19 @@
 			return 0
 		else
 			return 1
-	if(istype(other, /mob/living/silicon/pai))
+	if(ispAI(other))
 		if(!(container && istype(container, /obj/item/mmi)))
 			return 0
 		else
 			return 1
-	if(istype(other, /mob/living/silicon/robot))
+	if(isrobot(other))
 		if(!(container && istype(container, /obj/item/mmi)))
 			return 0
 		else
 			return 1
-	if(istype(other, /mob/living/carbon/human))
+	if(ishuman(other))
 		return 1
-	if(istype(other, /mob/living/simple_animal/slime))
+	if(isslime(other))
 		return 1
 	return ..()
 
@@ -84,7 +84,7 @@ I'm using this for Stat to give it a more nifty interface to work with
 
 		if(client.statpanel == "Status")
 			//Knowing how well-off your mech is doing is really important as an MMI
-			if(istype(src.loc, /obj/mecha))
+			if(ismecha(src.loc))
 				var/obj/mecha/M = src.loc
 				stat("Exosuit Charge:", "[istype(M.cell) ? "[M.cell.charge] / [M.cell.maxcharge]" : "No cell detected"]")
 				stat("Exosuit Integrity", "[!M.obj_integrity ? "0" : "[(M.obj_integrity / M.max_integrity) * 100]"]%")

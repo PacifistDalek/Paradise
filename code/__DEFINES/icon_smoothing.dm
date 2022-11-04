@@ -27,6 +27,8 @@ DEFINE_BITFIELD(smoothing_flags, list(
 
 #define QUEUE_SMOOTH_NEIGHBORS(thing_to_queue) for(var/neighbor in orange(1, thing_to_queue)) {var/atom/atom_neighbor = neighbor; QUEUE_SMOOTH(atom_neighbor)}
 
+#define REMOVE_FROM_SMOOTH_QUEUE(thing_to_remove) if(thing_to_remove.smoothing_flags & SMOOTH_QUEUED) {SSicon_smooth.remove_from_queues(thing_to_remove)}
+
 /**SMOOTHING GROUPS
  * Groups of things to smooth with.
  * * Contained in the `list/smoothing_groups` variable.
@@ -110,6 +112,7 @@ DEFINE_BITFIELD(smoothing_flags, list(
 #define SMOOTH_GROUP_BRASS_TABLES S_OBJ(53)				///obj/structure/table/brass
 #define SMOOTH_GROUP_ABDUCTOR_TABLES S_OBJ(54)			///obj/structure/table/abductor
 #define SMOOTH_GROUP_GLASS_TABLES S_OBJ(55)				///obj/structure/table/glass
+#define SMOOTH_GROUP_REINFORCED_TABLES S_OBJ(56)		///obj/structure/table/reinforced, /obj/structure/table/glass/reinforced
 
 #define SMOOTH_GROUP_ALIEN_RESIN S_OBJ(60)				///obj/structure/alien/resin
 #define SMOOTH_GROUP_ALIEN_WALLS S_OBJ(61)				///obj/structure/alien/resin/wall, /obj/structure/alien/resin/membrane

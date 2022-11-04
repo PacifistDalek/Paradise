@@ -26,8 +26,12 @@
 	block = GLOB.regenerateblock
 
 /datum/mutation/regenerate/on_life(mob/living/carbon/human/H)
-	H.adjustBruteLoss(-0.1, FALSE)
-	H.adjustFireLoss(-0.1)
+	if(!H.ignore_gene_stability && H.gene_stability < GENETIC_DAMAGE_STAGE_1)
+		H.adjustBruteLoss(-0.25, FALSE)
+		H.adjustFireLoss(-0.25)
+		return
+	H.adjustBruteLoss(-1, FALSE)
+	H.adjustFireLoss(-1)
 
 /datum/mutation/increaserun
 	name = "Super Speed"
@@ -135,17 +139,16 @@
 	..()
 	block = GLOB.hulkblock
 
-/datum/mutation/hulk/activate(mob/M)
+/datum/mutation/hulk/activate(mob/living/carbon/human/M)
 	..()
 	var/status = CANSTUN | CANWEAKEN | CANPARALYSE | CANPUSH
 	M.status_flags &= ~status
+	M.update_body()
 
-/datum/mutation/hulk/deactivate(mob/M)
+/datum/mutation/hulk/deactivate(mob/living/carbon/human/M)
 	..()
 	M.status_flags |= CANSTUN | CANWEAKEN | CANPARALYSE | CANPUSH
-
-/datum/mutation/hulk/on_draw_underlays(mob/M, g)
-	return "hulk_[g]_s"
+	M.update_body()
 
 /datum/mutation/hulk/on_life(mob/living/carbon/human/M)
 	if(!istype(M))
@@ -299,11 +302,10 @@
 	desc = "Drops the bodytemperature of another person."
 	panel = "Abilities"
 
-	charge_type = "recharge"
-	charge_max = 1200
+	base_cooldown = 1200
 
 	clothes_req = FALSE
-	stat_allowed = FALSE
+	stat_allowed = CONSCIOUS
 
 	selection_activated_message		= "<span class='notice'>Your mind grow cold. Click on a target to cast the spell.</span>"
 	selection_deactivated_message	= "<span class='notice'>Your mind returns to normal.</span>"
@@ -371,11 +373,10 @@
 	desc = "Eat just about anything!"
 	panel = "Abilities"
 
-	charge_type = "recharge"
-	charge_max = 300
+	base_cooldown = 300
 
-	clothes_req = 0
-	stat_allowed = 0
+	clothes_req = FALSE
+	stat_allowed = CONSCIOUS
 	invocation_type = "none"
 
 	action_icon_state = "genetic_eat"
@@ -390,7 +391,7 @@
 	var/can_eat = TRUE
 	if(iscarbon(user))
 		var/mob/living/carbon/C = user
-		if((C.head && (C.head.flags_cover & HEADCOVERSMOUTH)) || (C.wear_mask && (C.wear_mask.flags_cover & MASKCOVERSMOUTH) && !C.wear_mask.mask_adjusted))
+		if((C.head && (C.head.flags_cover & HEADCOVERSMOUTH)) || (C.wear_mask && (C.wear_mask.flags_cover & MASKCOVERSMOUTH) && !C.wear_mask.up))
 			if(show_message)
 				to_chat(C, "<span class='warning'>Your mouth is covered, preventing you from eating!</span>")
 			can_eat = FALSE
@@ -404,7 +405,7 @@
 			if(!H.bodyparts_by_name[name])
 				continue
 			affecting = H.bodyparts_by_name[name]
-			if(!istype(affecting, /obj/item/organ/external))
+			if(!isorgan(affecting))
 				continue
 			affecting.heal_damage(4, 0, updating_health = FALSE)
 		H.UpdateDamageIcon()
@@ -477,11 +478,10 @@
 	desc = "Leap great distances!"
 	panel = "Abilities"
 
-	charge_type = "recharge"
-	charge_max = 60
+	base_cooldown = 60
 
-	clothes_req = 0
-	stat_allowed = 0
+	clothes_req = FALSE
+	stat_allowed = CONSCIOUS
 	invocation_type = "none"
 
 	action_icon_state = "genetic_jump"
@@ -491,11 +491,11 @@
 
 /obj/effect/proc_holder/spell/leap/cast(list/targets, mob/living/user = usr)
 	var/failure = FALSE
-	if(istype(user.loc,/mob/) || IS_HORIZONTAL(user) || user.IsStunned() || user.buckled || user.stat)
+	if(ismob(user.loc) || IS_HORIZONTAL(user) || user.IsStunned() || user.buckled || user.stat)
 		to_chat(user, "<span class='warning'>You can't jump right now!</span>")
 		return
 
-	if(istype(user.loc,/turf/))
+	if(isturf(user.loc))
 		if(user.restrained())//Why being pulled while cuffed prevents you from moving
 			for(var/mob/living/M in range(user, 1))
 				if(M.pulling == user)
@@ -532,7 +532,7 @@
 
 		user.layer = prevLayer
 
-	if(istype(user.loc,/obj/))
+	if(isobj(user.loc))
 		var/obj/container = user.loc
 		to_chat(user, "<span class='warning'>You leap and slam your head against the inside of [container]! Ouch!</span>")
 		user.AdjustParalysis(6 SECONDS)
@@ -570,10 +570,10 @@
 	name = "Polymorph"
 	desc = "Mimic the appearance of others!"
 	panel = "Abilities"
-	charge_max = 1800
+	base_cooldown = 1800
 
 	clothes_req = FALSE
-	stat_allowed = FALSE
+	stat_allowed = CONSCIOUS
 
 	selection_activated_message		= "<span class='notice'>You body becomes unstable. Click on a target to cast transform into them.</span>"
 	selection_deactivated_message	= "<span class='notice'>Your body calms down again.</span>"
@@ -622,7 +622,7 @@
 /obj/effect/proc_holder/spell/empath
 	name = "Read Mind"
 	desc = "Read the minds of others for information."
-	charge_max = 180
+	base_cooldown = 180
 	clothes_req = FALSE
 	human_req = TRUE
 	stat_allowed = CONSCIOUS
@@ -699,7 +699,7 @@
 			else
 				to_chat(user, "<span class='notice'><b>Mood</b>: You sense strange thoughts from [M.name].</span>")
 
-		if(istype(M,/mob/living/carbon/human))
+		if(ishuman(M))
 			var/numbers[0]
 			var/mob/living/carbon/human/H = M
 			if(H.mind && H.mind.initial_account)
@@ -732,10 +732,10 @@
 	name = "Morph"
 	desc = "Mimic the appearance of your choice!"
 	panel = "Abilities"
-	charge_max = 1800
+	base_cooldown = 1800
 
-	clothes_req = 0
-	stat_allowed = 0
+	clothes_req = FALSE
+	stat_allowed = CONSCIOUS
 	invocation_type = "none"
 
 	action_icon_state = "genetic_morph"
@@ -747,7 +747,7 @@
 	if(!ishuman(user))
 		return
 
-	if(istype(user.loc,/mob/))
+	if(ismob(user.loc))
 		to_chat(user, "<span class='warning'>You can't change your appearance right now!</span>")
 		return
 	var/mob/living/carbon/human/M = user
@@ -917,10 +917,10 @@
 /obj/effect/proc_holder/spell/remotetalk
 	name = "Project Mind"
 	desc = "Make people understand your thoughts!"
-	charge_max = 0
+	base_cooldown = 0
 
-	clothes_req = 0
-	stat_allowed = 0
+	clothes_req = FALSE
+	stat_allowed = CONSCIOUS
 	invocation_type = "none"
 
 	action_icon_state = "genetic_project"
@@ -950,9 +950,9 @@
 /obj/effect/proc_holder/spell/mindscan
 	name = "Scan Mind"
 	desc = "Offer people a chance to share their thoughts!"
-	charge_max = 0
-	clothes_req = 0
-	stat_allowed = 0
+	base_cooldown = 0
+	clothes_req = FALSE
+	stat_allowed = CONSCIOUS
 	invocation_type = "none"
 	action_icon_state = "genetic_mindscan"
 	var/list/available_targets = list()
@@ -1024,10 +1024,10 @@
 /obj/effect/proc_holder/spell/remoteview
 	name = "Remote View"
 	desc = "Spy on people from any range!"
-	charge_max = 100
+	base_cooldown = 100
 
-	clothes_req = 0
-	stat_allowed = 0
+	clothes_req = FALSE
+	stat_allowed = CONSCIOUS
 	invocation_type = "none"
 
 	action_icon_state = "genetic_view"

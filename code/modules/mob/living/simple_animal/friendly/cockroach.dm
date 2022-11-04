@@ -20,7 +20,7 @@
 	gold_core_spawnable = FRIENDLY_SPAWN
 	var/squish_chance = 50
 	loot = list(/obj/effect/decal/cleanable/insectguts)
-	del_on_death = 1
+	del_on_death = TRUE
 
 /mob/living/simple_animal/cockroach/can_die()
 	return ..() && !SSticker.cinematic //If the nuke is going off, then cockroaches are invincible. Keeps the nuke from killing them, cause cockroaches are immune to nukes.
@@ -34,7 +34,7 @@
 				death()
 			else
 				visible_message("<span class='notice'>\The [name] avoids getting crushed.</span>")
-	else if(istype(AM, /obj/structure))
+	else if(isstructure(AM))
 		visible_message("<span class='notice'>As \the [AM] moved over \the [name], it was crushed.</span>")
 		death()
 

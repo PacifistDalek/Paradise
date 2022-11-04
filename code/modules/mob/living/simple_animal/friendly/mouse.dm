@@ -20,7 +20,7 @@
 	response_help  = "pets"
 	response_disarm = "gently pushes aside"
 	response_harm   = "stamps on"
-	density = 0
+	density = FALSE
 	ventcrawler = 2
 	pass_flags = PASSTABLE | PASSGRILLE | PASSMOB
 	mob_biotypes = MOB_ORGANIC | MOB_BEAST
@@ -30,10 +30,10 @@
 	atmos_requirements = list("min_oxy" = 16, "max_oxy" = 0, "min_tox" = 0, "max_tox" = 1, "min_co2" = 0, "max_co2" = 5, "min_n2" = 0, "max_n2" = 0)
 	minbodytemp = 223		//Below -50 Degrees Celcius
 	maxbodytemp = 323	//Above 50 Degrees Celcius
-	universal_speak = 0
-	can_hide = 1
+	universal_speak = FALSE
+	can_hide = TRUE
 	holder_type = /obj/item/holder/mouse
-	can_collar = 1
+	can_collar = TRUE
 	gold_core_spawnable = FRIENDLY_SPAWN
 	var/chew_probability = 1
 
@@ -79,6 +79,10 @@
 	icon_living = "mouse_[mouse_color]"
 	icon_dead = "mouse_[mouse_color]_dead"
 	icon_resting = "mouse_[mouse_color]_sleep"
+	update_appearance(UPDATE_DESC)
+
+/mob/living/simple_animal/mouse/update_desc()
+	. = ..()
 	desc = "It's a small [mouse_color] rodent, often seen hiding in maintenance areas and making a nuisance of itself."
 
 /mob/living/simple_animal/mouse/attack_hand(mob/living/carbon/human/M as mob)
@@ -129,7 +133,6 @@
 
 /mob/living/simple_animal/mouse/gray
 	mouse_color = "gray"
-	icon_state = "mouse_gray"
 
 /mob/living/simple_animal/mouse/brown
 	mouse_color = "brown"
@@ -139,12 +142,15 @@
 /mob/living/simple_animal/mouse/brown/Tom
 	name = "Tom"
 	real_name = "Tom"
-	desc = "Jerry the cat is not amused."
 	response_help  = "pets"
 	response_disarm = "gently pushes aside"
 	response_harm   = "splats"
 	unique_pet = TRUE
 	gold_core_spawnable = NO_SPAWN
+
+/mob/living/simple_animal/mouse/brown/Tom/update_desc()
+	. = ..()
+	desc = "Jerry the cat is not amused."
 
 /mob/living/simple_animal/mouse/brown/Tom/Initialize(mapload)
 	. = ..()
@@ -203,7 +209,7 @@
 	to_chat(src, "<span class='warning'>[src] tries to pick you up, but you wriggle free of their grasp!</span>")
 
 /mob/living/simple_animal/mouse/decompile_act(obj/item/matter_decompiler/C, mob/user)
-	if(!(istype(user, /mob/living/silicon/robot/drone)))
+	if(!isdrone(user))
 		user.visible_message("<span class='notice'>[user] sucks [src] into its decompiler. There's a horrible crunching noise.</span>", \
 		"<span class='warning'>It's a bit of a struggle, but you manage to suck [src] into your decompiler. It makes a series of visceral crunching noises.</span>")
 		new/obj/effect/decal/cleanable/blood/splatter(get_turf(src))

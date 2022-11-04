@@ -682,7 +682,7 @@
 /area/holodeck/source_snowfield)
 "cP" = (
 /obj/structure/table/wood,
-/obj/machinery/computer/library/checkout,
+/obj/machinery/computer/library,
 /turf/simulated/floor/engine/cult,
 /area/wizard_station)
 "cQ" = (
@@ -700,16 +700,12 @@
 /turf/simulated/floor/engine/cult,
 /area/wizard_station)
 "cV" = (
-/obj/structure/closet{
-	icon_closed = "cabinet_closed";
-	icon_opened = "cabinet_open";
-	icon_state = "cabinet_closed"
-	},
+/obj/structure/closet/cabinet,
 /obj/item/clothing/under/color/lightpurple,
 /obj/item/clothing/under/color/purple,
-/obj/item/storage/backpack/satchel,
-/obj/item/storage/backpack/satchel,
 /obj/item/clothing/head/wizard/red,
+/obj/item/storage/backpack/satchel,
+/obj/item/storage/backpack/satchel,
 /obj/item/clothing/suit/wizrobe/red,
 /obj/item/clothing/head/wizard,
 /obj/item/clothing/suit/wizrobe,
@@ -966,7 +962,7 @@
 	pixel_x = 4;
 	pixel_y = 6
 	},
-/obj/item/clothing/under/suit_jacket,
+/obj/item/clothing/under/suit/black,
 /obj/item/clothing/suit/wcoat,
 /turf/simulated/floor/plasteel{
 	icon_state = "cafeteria"
@@ -1864,7 +1860,7 @@
 /turf/simulated/floor/mineral/plastitanium/red,
 /area/shuttle/syndicate_elite)
 "he" = (
-/obj/machinery/portable_atmospherics/canister/oxygen,
+/obj/machinery/atmospherics/portable/canister/oxygen,
 /turf/simulated/floor/mineral/plastitanium/red,
 /area/shuttle/syndicate_elite)
 "hf" = (
@@ -3452,12 +3448,12 @@
 /area/syndicate_mothership/jail)
 "lY" = (
 /obj/structure/rack,
-/obj/item/clothing/under/shorts/black{
+/obj/item/clothing/under/pants/shorts/black{
 	pixel_x = -3;
 	pixel_y = 3
 	},
-/obj/item/clothing/under/shorts/blue,
-/obj/item/clothing/under/shorts/red{
+/obj/item/clothing/under/pants/shorts/blue,
+/obj/item/clothing/under/pants/shorts/red{
 	pixel_x = 3;
 	pixel_y = -3
 	},
@@ -3481,8 +3477,8 @@
 	pixel_x = -3;
 	pixel_y = 3
 	},
-/obj/item/clothing/under/soviet,
-/obj/item/clothing/under/pirate{
+/obj/item/clothing/under/costume/soviet,
+/obj/item/clothing/under/costume/pirate{
 	pixel_x = 3;
 	pixel_y = -3
 	},
@@ -3609,7 +3605,7 @@
 /area/syndicate_mothership)
 "mq" = (
 /obj/structure/table,
-/obj/item/radio/electropack{
+/obj/item/electropack{
 	pixel_x = -5
 	},
 /obj/item/assembly/signaler{
@@ -3659,7 +3655,7 @@
 	pixel_y = 3
 	},
 /obj/item/clothing/under/syndicate/combat,
-/obj/item/clothing/under/acj{
+/obj/item/clothing/under/misc/acj{
 	pixel_x = 3;
 	pixel_y = -3
 	},
@@ -3898,7 +3894,7 @@
 /turf/simulated/floor/plasteel/freezer,
 /area/syndicate_mothership)
 "nk" = (
-/obj/machinery/portable_atmospherics/canister/oxygen{
+/obj/machinery/atmospherics/portable/canister/oxygen{
 	name = "Canister: \[O2] (CRYO)"
 	},
 /obj/machinery/atmospherics/unary/portables_connector,
@@ -4348,7 +4344,9 @@
 	},
 /obj/item/kitchen/knife,
 /obj/machinery/newscaster{
-	pixel_x = -32
+	dir = 4;
+	name = "west bump";
+	pixel_x = -28
 	},
 /obj/item/reagent_containers/food/condiment/enzyme{
 	pixel_y = 5
@@ -4487,12 +4485,6 @@
 	},
 /turf/simulated/floor/plasteel,
 /area/admin)
-"pw" = (
-/obj/structure/table/wood,
-/obj/item/paper_bin,
-/obj/item/pen,
-/turf/simulated/floor/plasteel/dark/nitrogen,
-/area/centcom/specops)
 "pz" = (
 /obj/item/flag/syndi,
 /turf/simulated/floor/plasteel{
@@ -4639,6 +4631,12 @@
 	},
 /turf/simulated/floor/plasteel/dark/nitrogen,
 /area/centcom/specops)
+"pY" = (
+/obj/machinery/door/airlock/centcom{
+	name = "Team Storage"
+	},
+/turf/simulated/floor/plasteel/dark,
+/area/centcom/specops)
 "pZ" = (
 /obj/machinery/vending/medical,
 /turf/simulated/floor/mineral/titanium,
@@ -4737,7 +4735,9 @@
 /obj/item/reagent_containers/food/drinks/shaker,
 /obj/item/reagent_containers/glass/rag,
 /obj/machinery/newscaster{
-	pixel_y = -32
+	dir = 1;
+	name = "south bump";
+	pixel_y = -28
 	},
 /turf/simulated/floor/plasteel{
 	icon_state = "bar"
@@ -5536,7 +5536,7 @@
 /turf/simulated/floor/plating/airless,
 /area/syndicate_mothership)
 "ts" = (
-/obj/machinery/portable_atmospherics/canister/oxygen,
+/obj/machinery/atmospherics/portable/canister/oxygen,
 /turf/simulated/floor/mineral/plastitanium/red,
 /area/shuttle/syndicate)
 "tt" = (
@@ -6092,9 +6092,10 @@
 /area/admin)
 "vk" = (
 /obj/structure/table,
-/obj/item/stack/cable_coil,
-/obj/item/stack/rods,
-/obj/item/pen,
+/obj/item/storage/belt/utility/full/multitool{
+	pixel_x = -2;
+	pixel_y = 1
+	},
 /turf/simulated/floor/plasteel/freezer,
 /area/admin)
 "vl" = (
@@ -6293,9 +6294,9 @@
 /area/admin)
 "vO" = (
 /obj/structure/table,
-/obj/item/scalpel,
-/obj/item/bonesetter,
-/obj/item/bonegel,
+/obj/item/storage/backpack/duffel/syndie/med/surgery{
+	pixel_y = 8
+	},
 /turf/simulated/floor/plasteel/freezer,
 /area/admin)
 "vP" = (
@@ -6303,6 +6304,7 @@
 /obj/item/kitchen/utensil/fork,
 /obj/item/lighter,
 /obj/item/restraints/handcuffs/cable/red,
+/obj/item/kitchen/knife,
 /obj/item/storage/box/mousetraps,
 /obj/item/storage/fancy/cigarettes,
 /obj/item/pen,
@@ -6458,7 +6460,7 @@
 /obj/structure/table,
 /obj/item/tank/internals/oxygen/yellow,
 /obj/random/bomb_supply,
-/obj/item/clothing/under/rebeloutfit,
+/obj/item/clothing/under/costume/rebeloutfit,
 /obj/item/clothing/suit/poncho/ponchoshame,
 /obj/item/clothing/head/sombrero/shamebrero,
 /turf/simulated/floor/plasteel/dark,
@@ -6471,9 +6473,13 @@
 /area/admin)
 "wz" = (
 /obj/structure/table,
-/obj/item/FixOVein,
-/obj/item/retractor,
-/obj/item/cautery,
+/obj/item/scalpel/laser/manager/debug{
+	pixel_y = -5
+	},
+/obj/item/stack/medical/bruise_pack/advanced{
+	pixel_x = 5;
+	pixel_y = 5
+	},
 /turf/simulated/floor/plasteel/freezer,
 /area/admin)
 "wA" = (
@@ -6570,14 +6576,19 @@
 /area/admin)
 "wW" = (
 /obj/structure/table,
-/obj/item/surgicaldrill,
-/obj/item/stack/medical/bruise_pack/advanced,
+/obj/item/stack/rods,
+/obj/item/stack/cable_coil,
+/obj/item/pen,
 /turf/simulated/floor/plasteel/freezer,
 /area/admin)
 "wX" = (
 /obj/structure/table,
-/obj/item/hemostat,
-/obj/item/circular_saw,
+/obj/item/tank/internals/anesthetic,
+/obj/item/clothing/mask/breath/medical,
+/obj/item/storage/pill_bottle/psychiatrist,
+/obj/item/storage/pill_bottle/psychiatrist,
+/obj/item/storage/pill_bottle/psychiatrist,
+/obj/item/storage/pill_bottle/psychiatrist,
 /turf/simulated/floor/plasteel/freezer,
 /area/admin)
 "wY" = (
@@ -6871,6 +6882,10 @@
 	},
 /turf/simulated/floor/wood,
 /area/admin)
+"zN" = (
+/obj/machinery/computer/cryopod/robot,
+/turf/simulated/wall/indestructible/riveted,
+/area/centcom/specops)
 "zV" = (
 /obj/structure/extinguisher_cabinet{
 	pixel_x = 24
@@ -7432,7 +7447,8 @@
 /obj/structure/table/wood,
 /obj/structure/reagent_dispensers/beerkeg,
 /obj/machinery/newscaster{
-	pixel_y = 32
+	name = "north bump";
+	pixel_y = 28
 	},
 /turf/simulated/floor/plasteel{
 	icon_state = "bar"
@@ -8282,10 +8298,6 @@
 	icon_state = "bot"
 	},
 /area/shuttle/escape)
-"Gx" = (
-/obj/structure/bookcase/random,
-/turf/simulated/floor/plasteel/dark/nitrogen,
-/area/centcom/specops)
 "Gy" = (
 /obj/structure/chair/comfy/shuttle{
 	dir = 8
@@ -8361,7 +8373,7 @@
 /area/admin)
 "GO" = (
 /obj/structure/closet/crate/can,
-/turf/simulated/floor/plasteel/dark/nitrogen,
+/turf/simulated/floor/plasteel/dark,
 /area/centcom/specops)
 "GP" = (
 /obj/effect/decal/warning_stripes/southeast,
@@ -8389,7 +8401,8 @@
 /obj/item/melee/chainofcommand,
 /obj/item/stamp/captain,
 /obj/machinery/newscaster/security_unit{
-	pixel_y = 32
+	name = "north bump";
+	pixel_y = 28
 	},
 /turf/simulated/floor/plasteel/dark,
 /area/centcom/specops)
@@ -8416,7 +8429,7 @@
 /obj/item/dice/d10{
 	pixel_x = -3
 	},
-/turf/simulated/floor/plasteel/dark/nitrogen,
+/turf/simulated/floor/plasteel/dark,
 /area/centcom/specops)
 "GW" = (
 /turf/simulated/floor/plasteel{
@@ -8957,7 +8970,9 @@
 /obj/item/pen,
 /obj/structure/table/reinforced,
 /obj/machinery/newscaster{
-	pixel_x = 32
+	dir = 8;
+	name = "east bump";
+	pixel_x = 28
 	},
 /turf/simulated/floor/carpet/black,
 /area/centcom/specops)
@@ -9105,6 +9120,7 @@
 "JE" = (
 /obj/structure/railing,
 /obj/structure/flora/ausbushes/pointybush,
+/obj/structure/flora/ausbushes/ywflowers,
 /turf/simulated/floor/grass,
 /area/centcom/specops)
 "JG" = (
@@ -9194,7 +9210,7 @@
 	pixel_y = 32;
 	req_access_txt = "114"
 	},
-/turf/simulated/floor/plasteel/dark/nitrogen,
+/turf/simulated/floor/plasteel/dark,
 /area/centcom/specops)
 "JU" = (
 /obj/structure/holowindow{
@@ -9209,7 +9225,7 @@
 /obj/machinery/computer/cryopod{
 	pixel_y = 32
 	},
-/turf/simulated/floor/plasteel/dark/nitrogen,
+/turf/simulated/floor/plasteel/dark,
 /area/centcom/specops)
 "JY" = (
 /obj/effect/spawner/window,
@@ -9720,7 +9736,9 @@
 /obj/item/folder/red,
 /obj/item/lighter,
 /obj/machinery/newscaster{
-	pixel_y = -32
+	dir = 1;
+	name = "south bump";
+	pixel_y = -28
 	},
 /turf/simulated/floor/plasteel{
 	icon_state = "vault"
@@ -9903,6 +9921,13 @@
 	},
 /turf/simulated/floor/plasteel,
 /area/tdome/arena)
+"MN" = (
+/obj/machinery/cryopod/robot/offstation,
+/turf/simulated/floor/plasteel{
+	dir = 4;
+	icon_state = "vault"
+	},
+/area/centcom/specops)
 "MO" = (
 /obj/mecha/combat/marauder/loaded,
 /obj/effect/decal/warning_stripes/yellow/hollow,
@@ -9977,13 +10002,6 @@
 	},
 /turf/simulated/floor/carpet/black,
 /area/centcom/evac)
-"MZ" = (
-/obj/structure/flora/ausbushes/fullgrass,
-/obj/structure/flora/ausbushes/grassybush,
-/obj/structure/flora/ausbushes/leafybush,
-/obj/structure/flora/ausbushes/ppflowers,
-/turf/simulated/floor/grass,
-/area/centcom/specops)
 "Nc" = (
 /obj/structure/chair/comfy/black{
 	dir = 8
@@ -10191,7 +10209,9 @@
 /obj/structure/table/wood,
 /obj/item/storage/pill_bottle/dice,
 /obj/machinery/newscaster/security_unit{
-	pixel_x = -32
+	dir = 4;
+	name = "west bump";
+	pixel_x = -28
 	},
 /turf/simulated/floor/transparent/glass,
 /area/centcom/specops)
@@ -10546,7 +10566,9 @@
 	dir = 1
 	},
 /obj/machinery/newscaster/security_unit{
-	pixel_y = -32
+	dir = 1;
+	name = "south bump";
+	pixel_y = -28
 	},
 /turf/simulated/floor/plasteel{
 	icon_state = "darkred"
@@ -10632,12 +10654,6 @@
 	dir = 1
 	},
 /turf/simulated/floor/transparent/glass,
-/area/centcom/specops)
-"PN" = (
-/obj/machinery/door/airlock/centcom{
-	name = "Team Storage"
-	},
-/turf/simulated/floor/plasteel/dark/nitrogen,
 /area/centcom/specops)
 "PO" = (
 /obj/structure/flora/ausbushes/fernybush,
@@ -10757,14 +10773,6 @@
 	},
 /turf/simulated/floor/plasteel,
 /area/admin)
-"Qn" = (
-/obj/structure/railing{
-	dir = 4
-	},
-/obj/structure/flora/ausbushes/genericbush,
-/obj/structure/flora/ausbushes/brflowers,
-/turf/simulated/floor/grass,
-/area/centcom/specops)
 "Qr" = (
 /turf/simulated/floor/plasteel{
 	dir = 9;
@@ -10779,25 +10787,12 @@
 	},
 /turf/simulated/floor/plasteel/dark,
 /area/centcom/specops)
-"Qt" = (
-/obj/structure/railing{
-	dir = 8
-	},
-/obj/structure/flora/ausbushes/ywflowers,
-/turf/simulated/floor/grass,
-/area/centcom/specops)
 "Qu" = (
 /obj/structure/flora/ausbushes/ywflowers,
 /obj/structure/flora/ausbushes/grassybush,
 /obj/structure/flora/ausbushes/palebush,
 /turf/simulated/floor/grass,
 /area/centcom/evac)
-"Qv" = (
-/obj/structure/flora/ausbushes/grassybush,
-/obj/structure/flora/ausbushes/ppflowers,
-/obj/structure/flora/ausbushes/pointybush,
-/turf/simulated/floor/grass,
-/area/centcom/specops)
 "Qx" = (
 /turf/simulated/floor/plasteel{
 	dir = 4;
@@ -10923,12 +10918,8 @@
 /obj/structure/flora/ausbushes/ywflowers,
 /turf/simulated/floor/holofloor/grass,
 /area/holodeck/source_picnicarea)
-"QU" = (
-/obj/item/twohanded/required/kirbyplants,
-/turf/simulated/floor/plasteel/dark/nitrogen,
-/area/centcom/specops)
 "QV" = (
-/obj/item/clothing/under/rainbow,
+/obj/item/clothing/under/color/rainbow,
 /obj/item/clothing/glasses/sunglasses_fake,
 /turf/simulated/floor/beach/sand,
 /area/holodeck/source_beach)
@@ -11402,7 +11393,9 @@
 /obj/item/folder/red,
 /obj/item/lighter,
 /obj/machinery/newscaster{
-	pixel_y = -32
+	dir = 1;
+	name = "south bump";
+	pixel_y = -28
 	},
 /turf/simulated/floor/plasteel{
 	dir = 10;
@@ -11705,7 +11698,9 @@
 	},
 /obj/item/storage/lockbox/medal,
 /obj/machinery/newscaster/security_unit{
-	pixel_x = 32
+	dir = 8;
+	name = "east bump";
+	pixel_x = 28
 	},
 /turf/simulated/floor/carpet,
 /area/centcom/specops)
@@ -11719,6 +11714,10 @@
 /obj/structure/fans/tiny,
 /turf/simulated/floor/plasteel,
 /area/centcom/evac)
+"UE" = (
+/obj/machinery/computer/operating,
+/turf/simulated/floor/plasteel/freezer,
+/area/admin)
 "UF" = (
 /obj/structure/bed/roller,
 /obj/machinery/iv_drip,
@@ -12802,7 +12801,8 @@
 	pixel_x = 4.5
 	},
 /obj/machinery/newscaster{
-	pixel_y = 32
+	name = "north bump";
+	pixel_y = 28
 	},
 /turf/simulated/floor/plasteel{
 	dir = 5;
@@ -12812,9 +12812,6 @@
 "Ze" = (
 /turf/simulated/floor/mineral/titanium/blue,
 /area/shuttle/transport)
-"Zf" = (
-/turf/simulated/floor/plasteel/dark/nitrogen,
-/area/centcom/specops)
 "Zg" = (
 /obj/machinery/door_control/no_emag{
 	id = "CCTELE";
@@ -12880,7 +12877,7 @@
 	id_tag = "CCGAMMA";
 	name = "Gamma Security"
 	},
-/turf/simulated/floor/plasteel/dark/nitrogen,
+/turf/simulated/floor/plasteel/dark,
 /area/centcom/specops)
 "Zt" = (
 /obj/structure/closet/secure_closet/guncabinet,
@@ -12938,6 +12935,12 @@
 	icon_state = "white"
 	},
 /area/centcom/control)
+"ZA" = (
+/obj/machinery/defibrillator_mount/loaded{
+	pixel_x = -30
+	},
+/turf/simulated/floor/plasteel/freezer,
+/area/admin)
 "ZC" = (
 /turf/simulated/floor/plasteel/dark,
 /area/centcom/control)
@@ -13027,10 +13030,6 @@
 "ZT" = (
 /turf/simulated/wall/indestructible/riveted,
 /area/tdome/tdomeobserve)
-"ZU" = (
-/obj/machinery/newscaster,
-/turf/simulated/wall/indestructible/riveted,
-/area/centcom/control)
 "ZV" = (
 /obj/structure/railing,
 /obj/structure/railing{
@@ -31970,7 +31969,7 @@ JS
 Mq
 NU
 PM
-Gx
+NP
 Zr
 Ji
 Ra
@@ -32223,11 +32222,11 @@ aN
 aN
 aN
 Zr
-Zf
+Ra
 Mq
 iW
 PM
-pw
+Ae
 Zr
 Ji
 Ra
@@ -32484,7 +32483,7 @@ Yx
 Yx
 Yx
 Yx
-QU
+AV
 VI
 TV
 Ra
@@ -32741,7 +32740,7 @@ gY
 Mr
 Mr
 Yx
-Zf
+Ra
 pX
 Ji
 Ra
@@ -32998,7 +32997,7 @@ CH
 Mu
 Oj
 Yx
-QU
+AV
 RD
 TV
 Ra
@@ -34025,8 +34024,8 @@ Zr
 oN
 oN
 oN
+MN
 Zr
-MZ
 Jr
 Ji
 Ra
@@ -34280,10 +34279,10 @@ GY
 aN
 Zr
 JW
-Zf
+Ra
+Ra
 DZ
 Zr
-Qn
 Jt
 Ji
 Ra
@@ -34538,9 +34537,9 @@ aN
 Zr
 Hv
 Hv
+Ra
 DZ
-PN
-Ji
+pY
 Ji
 Ra
 Ra
@@ -34795,9 +34794,9 @@ aN
 Zr
 oN
 oN
+Ra
 DZ
-PN
-Qr
+pY
 Qr
 Ra
 Ra
@@ -35049,12 +35048,12 @@ aN
 aN
 aN
 Db
-Zr
-Zf
-Zf
+zN
+Ra
+Ra
+Ra
 DZ
 Zr
-Qt
 Jx
 Ji
 Ra
@@ -35310,8 +35309,8 @@ Zr
 Hv
 Hv
 Hv
+MN
 Zr
-Qv
 JE
 Ji
 AV
@@ -40714,7 +40713,7 @@ ZC
 Wd
 ZC
 Nq
-ZU
+YA
 dv
 xv
 Zx
@@ -70748,7 +70747,7 @@ aN
 wk
 wk
 uk
-nJ
+ZA
 vO
 wz
 wW
@@ -71004,7 +71003,7 @@ aN
 aN
 aN
 lH
-nJ
+UE
 nJ
 nJ
 nJ

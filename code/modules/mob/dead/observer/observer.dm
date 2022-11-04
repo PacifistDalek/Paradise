@@ -11,11 +11,13 @@ GLOBAL_VAR_INIT(observer_default_invisibility, INVISIBILITY_OBSERVER)
 	icon = 'icons/mob/mob.dmi'
 	icon_state = "ghost"
 	layer = GHOST_LAYER
+	plane = GAME_PLANE
 	stat = DEAD
 	density = FALSE
 	alpha = 127
 	move_resist = INFINITY	//  don't get pushed around
 	invisibility = INVISIBILITY_OBSERVER
+	blocks_emissive = FALSE // Ghosts are transparent, duh
 	var/can_reenter_corpse
 	var/bootime = FALSE
 	var/started_as_observer //This variable is set to 1 when you enter the game as an observer.
@@ -89,6 +91,7 @@ GLOBAL_VAR_INIT(observer_default_invisibility, INVISIBILITY_OBSERVER)
 	toggle_all_huds_on(body)
 	RegisterSignal(src, COMSIG_MOB_HUD_CREATED, .proc/set_ghost_darkness_level) //something something don't call this until we have a HUD
 	..()
+	plane = GAME_PLANE
 
 /mob/dead/observer/Destroy()
 	toggle_all_huds_off()
@@ -145,7 +148,8 @@ GLOBAL_VAR_INIT(observer_default_invisibility, INVISIBILITY_OBSERVER)
 		MA.icon = initial(icon)
 		MA.icon_state = initial(icon_state)
 	MA.underlays = COPY.underlays
-
+	MA.layer = GHOST_LAYER
+	MA.plane = GAME_PLANE
 	. = MA
 
 /mob/dead/CanPass(atom/movable/mover, turf/target, height=0)
@@ -192,6 +196,11 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	var/warningmsg = null
 	var/obj/machinery/cryopod/P = istype(loc, /obj/machinery/cryopod) && loc
 
+	if(frozen)
+		to_chat(src, "<span class='warning'>You cannot do this while admin frozen.</span>")
+		message_admins("[key_name_admin(src)] tried to ghost while admin frozen")
+		return
+
 	if(P)
 		if(TOO_EARLY_TO_GHOST)
 			warningmsg = "It's too early in the shift to enter cryo"
@@ -230,7 +239,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	if(istype(M.loc, /obj/structure/morgue))
 		Morgue = M.loc
 	if(Morgue)
-		Morgue.update()
+		Morgue.update_state()
 
 	// If mob in cryopod, despawn mob
 	if(P)
@@ -296,7 +305,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	if(istype(mind.current.loc,/obj/structure/morgue))
 		Morgue = mind.current.loc
 	if(Morgue)
-		Morgue.update()
+		Morgue.update_state()
 
 	return 1
 
@@ -539,10 +548,11 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	set name = "Analyze Air"
 	set category = "Ghost"
 
-	if(!istype(usr, /mob/dead/observer)) return
+	if(!isobserver(usr))
+		return
 
 	// Shamelessly copied from the Gas Analyzers
-	if(!( istype(usr.loc, /turf) ))
+	if(!isturf(usr.loc))
 		return
 
 	var/datum/gas_mixture/environment = usr.loc.return_air()
@@ -608,7 +618,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 		if(A.client && A.eyeobj) // No point following clientless AI eyes
 			. += "|<a href='byond://?src=[ghost.UID()];follow=[A.eyeobj.UID()]'>eye</a>"
 		return
-	else if(istype(target, /mob/dead/observer))
+	else if(isobserver(target))
 		var/mob/dead/observer/O = target
 		. = "<a href='byond://?src=[ghost.UID()];follow=[target.UID()]'>follow</a>"
 		if(O.mind && O.mind.current)
@@ -653,15 +663,6 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 
 	..()
 //END TELEPORT HREF CODE
-
-/mob/dead/observer/verb/toggle_anonsay()
-	set name = "Toggle Anonymous Dead-chat"
-	set category = "Ghost"
-	set desc = "Toggles showing your key in dead chat."
-	client.prefs.toggles2 ^= PREFTOGGLE_2_ANONDCHAT
-	to_chat(src, "As a ghost, your key will [(client.prefs.toggles2 & PREFTOGGLE_2_ANONDCHAT) ? "no longer" : "now"] be shown when you speak in dead chat.</span>")
-	client.prefs.save_preferences(src)
-
 /mob/dead/observer/verb/toggle_ghostsee()
 	set name = "Toggle Ghost Vision"
 	set desc = "Toggles your ability to see things only ghosts can see, like other ghosts"

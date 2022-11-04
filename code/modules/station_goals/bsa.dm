@@ -29,8 +29,8 @@
 
 /obj/machinery/bsa
 	icon = 'icons/obj/machines/particle_accelerator.dmi'
-	density = 1
-	anchored = 1
+	density = TRUE
+	anchored = TRUE
 
 /obj/machinery/bsa/back
 	name = "Bluespace Artillery Generator"
@@ -288,9 +288,9 @@
 
 /obj/machinery/computer/bsa_control/process()
 	..()
-	update_icon()
+	update_icon(UPDATE_ICON_STATE)
 
-/obj/machinery/computer/bsa_control/update_icon()
+/obj/machinery/computer/bsa_control/update_icon_state()
 	if(stat & BROKEN)
 		icon_state = icon_state_broken
 	else if(stat & NOPOWER)
@@ -301,6 +301,9 @@
 		icon_state = icon_state_active
 	else
 		icon_state = initial(icon_state)
+
+/obj/machinery/computer/bsa_control/update_overlays()
+	return list()
 
 /obj/machinery/computer/bsa_control/attack_hand(mob/user)
 	if(..())
@@ -342,7 +345,7 @@
 			fire(usr)
 		if("recalibrate")
 			calibrate(usr)
-	update_icon()
+	update_icon(UPDATE_ICON_STATE)
 	return TRUE
 
 /obj/machinery/computer/bsa_control/proc/calibrate(mob/user)
@@ -357,7 +360,7 @@
 	target = options[V]
 
 /obj/machinery/computer/bsa_control/proc/get_target_name()
-	if(istype(target,/area))
+	if(isarea(target))
 		var/area/A = target
 		return A.name
 	else if(istype(target,/obj/item/gps))
@@ -365,7 +368,7 @@
 		return G.gpstag
 
 /obj/machinery/computer/bsa_control/proc/get_impact_turf()
-	if(istype(target,/area))
+	if(isarea(target))
 		return pick(get_area_turfs(target))
 	else if(istype(target,/obj/item/gps))
 		return get_turf(target)
@@ -394,7 +397,7 @@
 		return null
 	//Totally nanite construction system not an immersion breaking spawning
 	var/datum/effect_system/smoke_spread/s = new
-	s.set_up(4, 0, get_turf(centerpiece))
+	s.set_up(4, FALSE, centerpiece)
 	s.start()
 	var/obj/machinery/bsa/full/cannon = new(get_turf(centerpiece),centerpiece.get_cannon_direction())
 	cannon.controller = src

@@ -16,17 +16,17 @@
 	response_disarm = "shoos"
 	response_harm   = "stomps on"
 	ventcrawler = 2
-	density = 0
+	density = FALSE
 	pass_flags = PASSTABLE | PASSMOB
 	mob_size = MOB_SIZE_SMALL
-	can_hide = 1
+	can_hide = TRUE
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/meat = 1)
-	can_collar = 1
+	can_collar = TRUE
 	mob_biotypes = MOB_ORGANIC | MOB_BEAST | MOB_REPTILE
 	gold_core_spawnable = FRIENDLY_SPAWN
 
 /mob/living/simple_animal/lizard/decompile_act(obj/item/matter_decompiler/C, mob/user)
-	if(!istype(user, /mob/living/silicon/robot/drone))
+	if(!isdrone(user))
 		user.visible_message("<span class='notice'>[user] sucks [src] into its decompiler. There's a horrible crunching noise.</span>", \
 		"<span class='warning'>It's a bit of a struggle, but you manage to suck [src] into your decompiler. It makes a series of visceral crunching noises.</span>")
 		new/obj/effect/decal/cleanable/blood/splatter(get_turf(src))

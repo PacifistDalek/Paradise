@@ -7,7 +7,6 @@
 	var/area/target = null
 	var/active = FALSE
 	var/list/holographic_items = list()
-	var/damaged = 0
 	var/last_change = 0
 
 	light_color = LIGHT_COLOR_CYAN
@@ -206,7 +205,6 @@
 
 	if(active)
 		if(!checkInteg(linkedholodeck))
-			damaged = 1
 			target = locate(/area/holodeck/source_plating)
 			if(target)
 				loadProgram(target)
@@ -239,7 +237,7 @@
 
 /obj/machinery/computer/HolodeckControl/proc/checkInteg(area/A)
 	for(var/turf/T in A)
-		if(istype(T, /turf/space))
+		if(isspaceturf(T))
 			return 0
 
 	return 1
@@ -291,7 +289,7 @@
 	for(var/mob/living/simple_animal/hostile/carp/C in linkedholodeck)
 		qdel(C)
 
-	holographic_items = A.copy_contents_to(linkedholodeck , 1)
+	holographic_items = A.copy_contents_to(linkedholodeck , 1, perfect_copy = FALSE)
 
 	if(emagged)
 		for(var/obj/item/holo/H in linkedholodeck)
@@ -345,9 +343,9 @@
 
 /turf/simulated/floor/holofloor/carpet/Initialize(mapload)
 	. = ..()
-	update_icon()
+	update_icon(UPDATE_ICON_STATE)
 
-/turf/simulated/floor/holofloor/carpet/update_icon()
+/turf/simulated/floor/holofloor/carpet/update_icon_state()
 	if(!..())
 		return 0
 	if(smoothing_flags & (SMOOTH_CORNERS|SMOOTH_BITMASK))
@@ -392,7 +390,7 @@
 /obj/structure/table/holotable/wood
 	name = "wooden table"
 	desc = "A square piece of wood standing on four wooden legs. It can not move."
-	icon = 'icons/obj/smooth_structures/wood_table.dmi'
+	icon = 'icons/obj/smooth_structures/tables/wood_table.dmi'
 	icon_state = "wood_table-0"
 	base_icon_state = "wood_table"
 	smoothing_groups = list(SMOOTH_GROUP_WOOD_TABLES) //Don't smooth with SMOOTH_GROUP_TABLES
@@ -410,8 +408,8 @@
 
 /obj/structure/holowindow
 	name = "reinforced window"
-	icon = 'icons/obj/structures.dmi'
-	icon_state = "rwindow"
+	icon = 'icons/obj/smooth_structures/reinforced_window.dmi'
+	icon_state = "reinforced_window-0"
 	desc = "A window."
 	density = TRUE
 	layer = 3.2//Just above doors
@@ -425,6 +423,13 @@
 /obj/item/holo
 	damtype = STAMINA
 
+//override block check, we don't want to block anything that's not a holo object
+/obj/item/holo/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby)
+	if(!istype(hitby, /obj/item/holo))
+		return FALSE
+	else
+		return ..()
+
 /obj/item/holo/claymore
 	name = "claymore"
 	desc = "What are you standing around staring at this for? Get to killing!"
@@ -436,6 +441,7 @@
 	w_class = WEIGHT_CLASS_BULKY
 	attack_verb = list("attacked", "slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
 	block_chance = 50
+
 
 /obj/item/holo/claymore/blue
 	icon_state = "claymoreblue"
@@ -455,7 +461,7 @@
 	throw_range = 5
 	throwforce = 0
 	w_class = WEIGHT_CLASS_SMALL
-	armour_penetration = 50
+	armour_penetration_percentage = 50
 	block_chance = 50
 	var/active = FALSE
 
@@ -492,7 +498,7 @@
 		w_class = WEIGHT_CLASS_SMALL
 		playsound(user, 'sound/weapons/saberoff.ogg', 20, 1)
 		to_chat(user, "<span class='notice'>[src] can now be concealed.</span>")
-	if(istype(user,/mob/living/carbon/human))
+	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
 		H.update_inv_l_hand()
 		H.update_inv_r_hand()
@@ -534,7 +540,7 @@
 		visible_message("<span class='warning'>[G.assailant] dunks [G.affecting] into [src]!</span>")
 		qdel(W)
 		return
-	else if(istype(W, /obj/item) && get_dist(src,user)<2)
+	else if(isitem(W) && get_dist(src,user)<2)
 		user.drop_item(src)
 		visible_message("<span class='notice'>[user] dunks [W] into [src]!</span>")
 		return
@@ -588,7 +594,7 @@
 
 	ready = !ready
 
-	update_icon()
+	update_icon(UPDATE_ICON_STATE)
 
 	var/numbuttons = 0
 	var/numready = 0
@@ -600,7 +606,7 @@
 	if(numbuttons == numready)
 		begin_event()
 
-/obj/machinery/readybutton/update_icon()
+/obj/machinery/readybutton/update_icon_state()
 	if(ready)
 		icon_state = "auth_on"
 	else

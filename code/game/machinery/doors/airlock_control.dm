@@ -117,7 +117,7 @@
 
 /obj/machinery/door/airlock/Bumped(atom/AM)
 	..(AM)
-	if(istype(AM, /obj/mecha))
+	if(ismecha(AM))
 		var/obj/mecha/mecha = AM
 		if(density && radio_connection && mecha.occupant && (allowed(mecha.occupant) || check_access_list(mecha.operation_req_access)))
 			send_status(1)
@@ -142,7 +142,7 @@
 	icon_state = "airlock_sensor_off"
 	layer = ABOVE_WINDOW_LAYER
 	name = "airlock sensor"
-	anchored = 1
+	anchored = TRUE
 	resistance_flags = FIRE_PROOF
 	power_channel = ENVIRON
 
@@ -151,11 +151,11 @@
 	frequency = 1379
 	var/command = "cycle"
 
-	var/on = 1
+	var/on = TRUE
 	var/alert = 0
 	var/previousPressure
 
-/obj/machinery/airlock_sensor/update_icon()
+/obj/machinery/airlock_sensor/update_icon_state()
 	if(on)
 		if(alert)
 			icon_state = "airlock_sensor_alert"
@@ -191,7 +191,7 @@
 
 			alert = (pressure < ONE_ATMOSPHERE*0.8)
 
-			update_icon()
+			update_icon(UPDATE_ICON_STATE)
 
 /obj/machinery/airlock_sensor/set_frequency(new_frequency)
 	SSradio.remove_object(src, frequency)
@@ -219,14 +219,14 @@
 	icon_state = "access_button_standby"
 	name = "access button"
 	layer = ABOVE_WINDOW_LAYER
-	anchored = 1
+	anchored = TRUE
 	power_channel = ENVIRON
 	var/master_tag
 	frequency = AIRLOCK_FREQ
 	var/command = "cycle"
-	var/on = 1
+	var/on = TRUE
 
-/obj/machinery/access_button/update_icon()
+/obj/machinery/access_button/update_icon_state()
 	if(on)
 		icon_state = "access_button_standby"
 	else
