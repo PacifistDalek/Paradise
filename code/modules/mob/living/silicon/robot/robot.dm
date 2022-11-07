@@ -53,7 +53,7 @@ GLOBAL_LIST_INIT(robot_verbs_default, list(
 
 	var/opened = FALSE
 	var/custom_panel = null
-	var/list/custom_panel_names = list("Cricket")
+	var/list/custom_panel_names = list("Cricket","omoikane")
 	var/list/custom_eye_names = list("Cricket","Standard")
 	var/emagged = 0
 	var/is_emaggable = TRUE
@@ -332,6 +332,9 @@ GLOBAL_LIST_INIT(robot_verbs_default, list(
 			module_sprites["Standard"] = "Standard-Serv"
 			module_sprites["Noble-SRV"] = "Noble-SRV"
 			module_sprites["Cricket"] = "Cricket-SERV"
+			module_sprites["Mark III"] = "servicedrone"
+			module_sprites["Heavy"] = "heavyServ"
+			module_sprites["Omoikane"] = "omoikane"
 			see_reagents = TRUE
 
 		if("Miner")
@@ -346,6 +349,9 @@ GLOBAL_LIST_INIT(robot_verbs_default, list(
 			module_sprites["Noble-DIG"] = "Noble-DIG"
 			module_sprites["Cricket"] = "Cricket-MINE"
 			module_sprites["Lavaland"] = "lavaland"
+			module_sprites["Squat"] = "squatminer"
+			module_sprites["Sleek Miner"] = "sleekminer"
+			module_sprites["Coffin Drill"] = "coffinMiner"
 
 		if("Medical")
 			module = new /obj/item/robot_module/medical(src)
@@ -359,6 +365,9 @@ GLOBAL_LIST_INIT(robot_verbs_default, list(
 			module_sprites["Standard"] = "Standard-Medi"
 			module_sprites["Noble-MED"] = "Noble-MED"
 			module_sprites["Cricket"] = "Cricket-MEDI"
+			module_sprites["Heavy"] = "heavyMed"
+			module_sprites["Qualified Doctor"] = "qualified_doctor"
+			module_sprites["Coffin Medical"] = "coffinMed"
 			status_flags &= ~CANPUSH
 			see_reagents = TRUE
 
@@ -372,6 +381,7 @@ GLOBAL_LIST_INIT(robot_verbs_default, list(
 			module_sprites["Standard"] = "Standard-Secy"
 			module_sprites["Noble-SEC"] = "Noble-SEC"
 			module_sprites["Cricket"] = "Cricket-SEC"
+			module_sprites["Heavy"] = "heavySec"
 			status_flags &= ~CANPUSH
 
 		if("Engineering")
@@ -385,6 +395,8 @@ GLOBAL_LIST_INIT(robot_verbs_default, list(
 			module_sprites["Standard"] = "Standard-Engi"
 			module_sprites["Noble-ENG"] = "Noble-ENG"
 			module_sprites["Cricket"] = "Cricket-ENGI"
+			module_sprites["Mark III"] = "constructiondrone"
+			module_sprites["Heavy"] = "heavyEng"
 			magpulse = TRUE
 
 		if("Janitor")
@@ -396,6 +408,9 @@ GLOBAL_LIST_INIT(robot_verbs_default, list(
 			module_sprites["Standard"] = "Standard-Jani"
 			module_sprites["Noble-CLN"] = "Noble-CLN"
 			module_sprites["Cricket"] = "Cricket-JANI"
+			module_sprites["Mark III"] = "cleaningdrone"
+			module_sprites["Heavy"] = "heavyJani"
+			module_sprites["Next-To-Godliness"] = "nexttogodliness"
 
 		if("Destroyer") // Rolling Borg
 			module = new /obj/item/robot_module/destroyer(src)
