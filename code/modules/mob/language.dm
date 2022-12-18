@@ -519,6 +519,13 @@
 	flags = RESTRICTED | HIVEMIND | NOBABEL
 	follow = TRUE
 
+/datum/language/xenos/broadcast(mob/living/speaker, message, speaker_mask)
+	if(isalien(speaker))
+		var/mob/living/carbon/alien/humanoid/alienspeaker = speaker
+		if(alienspeaker.loudspeaker)
+			return ..(speaker, "<font size=3><b>[message]</b></font>")
+	return ..()
+
 /datum/language/terrorspider
 	name = "Spider Hivemind"
 	desc = "Terror spiders have a limited ability to commune over a psychic hivemind, similar to xenomorphs."
@@ -618,7 +625,7 @@
 			M.show_message("[message_start_dead] [message_body]", 2)
 
 	for(var/mob/living/S in GLOB.alive_mob_list)
-		if(drone_only && !istype(S,/mob/living/silicon/robot/drone))
+		if(drone_only && !isdrone(S))
 			continue
 		else if(isAI(S))
 			message_start = "<i><span class='game say'>[name], <a href='byond://?src=[S.UID()];track=\ref[speaker]'><span class='name'>[speaker.name]</span></a>"

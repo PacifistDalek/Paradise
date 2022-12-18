@@ -136,7 +136,7 @@
 			if((M.client && M.machine == src))
 				is_in_use = TRUE
 				src.attack_hand(M)
-		if(istype(usr, /mob/living/silicon/ai) || istype(usr, /mob/living/silicon/robot))
+		if(isAI(usr) || isrobot(usr))
 			if(!(usr in nearby))
 				if(usr.client && usr.machine==src) // && M.machine == src is omitted because if we triggered this by using the dialog, it doesn't matter if our machine changed in between triggering it and this - the dialog is probably still supposed to refresh.
 					is_in_use = TRUE
@@ -185,7 +185,7 @@
 	src.machine = O
 	if(istype(O))
 		O.in_use = TRUE
-		RegisterSignal(O, COMSIG_PARENT_QDELETING, .proc/unset_machine)
+		RegisterSignal(O, COMSIG_PARENT_QDELETING, PROC_REF(unset_machine))
 
 /obj/item/proc/updateSelfDialog()
 	var/mob/M = src.loc
@@ -325,9 +325,6 @@ a {
 
 /obj/proc/container_resist(mob/living)
 	return
-
-/obj/proc/CanAStarPass(ID, dir, caller)
-	. = !density
 
 /obj/proc/on_mob_move(dir, mob/user)
 	return

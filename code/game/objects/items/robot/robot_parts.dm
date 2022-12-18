@@ -266,9 +266,9 @@
 
 			user.drop_item()
 
-			var/datum/job_objective/make_cyborg/task = user.mind.findJobTask(/datum/job_objective/make_cyborg)
+			var/datum/job_objective/make_cyborg/task = user.mind.find_job_task(/datum/job_objective/make_cyborg)
 			if(istype(task))
-				task.unit_completed()
+				task.completed = TRUE
 
 			O.invisibility = 0
 			//Transfer debug settings to new mob
@@ -395,7 +395,7 @@
 /obj/item/robot_parts/head/attackby(obj/item/W as obj, mob/user as mob, params)
 	..()
 	if(istype(W, /obj/item/flash))
-		if(istype(user,/mob/living/silicon/robot))
+		if(isrobot(user))
 			to_chat(user, "<span class='warning'>How do you propose to do that?</span>")
 			return
 		else if(flash1 && flash2)

@@ -463,7 +463,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark/awaystart) //Without this away mission
 /obj/effect/landmark/costume/butler/Initialize(mapload)
 	. = ..()
 	new /obj/item/clothing/suit/wcoat(src.loc)
-	new /obj/item/clothing/under/suit(src.loc)
+	new /obj/item/clothing/under/suit/black(loc)
 	new /obj/item/clothing/head/that(src.loc)
 	return INITIALIZE_HINT_QDEL
 
@@ -587,6 +587,53 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark/awaystart) //Without this away mission
 	GLOB.ruin_landmarks -= src
 	ruin_template = null
 	. = ..()
+
+
+/// Mob spawners, spawns a mob and deletes the landmark
+
+/obj/effect/landmark/mob_spawner
+	///The mob we use for the spawner
+	var/mobtype = null
+	icon = 'icons/effects/spawner_icons.dmi'
+
+/obj/effect/landmark/mob_spawner/Initialize(mapload)
+	. = ..() 
+	new mobtype(loc)
+	return INITIALIZE_HINT_QDEL
+
+/obj/effect/landmark/mob_spawner/goliath
+	mobtype = /mob/living/simple_animal/hostile/asteroid/goliath/beast
+	icon_state = "questionmark"
+
+/obj/effect/landmark/mob_spawner/goliath/Initialize(mapload)
+	if(prob(1))
+		mobtype = /mob/living/simple_animal/hostile/asteroid/goliath/beast/ancient
+	. = ..()
+
+/obj/effect/landmark/mob_spawner/legion
+	mobtype = /mob/living/simple_animal/hostile/asteroid/hivelord/legion
+	icon_state = "questionmark"
+
+/obj/effect/landmark/mob_spawner/legion/Initialize(mapload)
+	if(prob(5))
+		mobtype = /mob/living/simple_animal/hostile/asteroid/hivelord/legion/dwarf
+	. = ..()
+
+/obj/effect/landmark/mob_spawner/watcher
+	mobtype = /mob/living/simple_animal/hostile/asteroid/basilisk/watcher
+	icon_state = "questionmark"
+
+/obj/effect/landmark/mob_spawner/watcher/Initialize(mapload)
+	if(prob(1))
+		if(prob(25)) /// 75% chance to get a magmawing watcher, and 25% chance to get a icewing watcher (1/133, 1/400 respectively)
+			mobtype = /mob/living/simple_animal/hostile/asteroid/basilisk/watcher/icewing
+		else
+			mobtype = /mob/living/simple_animal/hostile/asteroid/basilisk/watcher/magmawing
+	. = ..()
+
+/obj/effect/landmark/mob_spawner/goldgrub
+	mobtype = /mob/living/simple_animal/hostile/asteroid/goldgrub
+	icon_state = "questionmark"
 
 // Damage tiles
 /obj/effect/landmark/damageturf

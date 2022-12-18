@@ -511,6 +511,7 @@
 	#define COMPONENT_BLOCK_MARK_RETRIEVAL (1<<0)
 ///from base of obj/item/hit_reaction(): (list/args)
 #define COMSIG_ITEM_HIT_REACT "item_hit_react"
+	#define COMPONENT_BLOCK_SUCCESSFUL (1 << 0)
 ///called on item when crossed by something (): (/atom/movable, mob/living/crossed)
 #define COMSIG_ITEM_WEARERCROSSED "wearer_crossed"
 ///called on item when microwaved (): (obj/machinery/microwave/M)
@@ -805,3 +806,7 @@
 // /obj/machinery/door/airlock signals
 #define COMSIG_AIRLOCK_OPEN "airlock_open"
 #define COMSIG_AIRLOCK_CLOSE "airlock_close"
+
+// /datum/objective signals
+///from datum/objective/proc/find_target()
+#define COMSIG_OBJECTIVE_TARGET_FOUND "objective_target_found"
